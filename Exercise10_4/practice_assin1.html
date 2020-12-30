@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+<head>
+    <title></title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <style>
+
+    </style>
+</head>
+<body>
+<script>
+    $(document).ready(function(){
+
+
+        var randSize;
+        var $container = $("#container");
+        var $addBtn = $(container).find("#add");
+        var $removeBtn = $(container).find("#remove");
+        var boxes = [];
+        var $div;
+        var $box;
+
+
+        //$container.css({"flext-direction":"row"});
+
+        var $removeAll = $("#remAllBox");
+
+
+
+        $addBtn.on("click", function(event){
+
+            create_box();
+
+
+        });
+
+        $removeBtn.on("click", function(event){
+            //$box = $container.find(".box");
+
+            //$box={
+            //    ID:$container.find(".box").last()
+            //}
+            var value = boxes[boxes.length-1].text();
+
+            boxes.pop();
+            $container.children().find(":contains("+"'"+value+"'"+")").remove();
+            //alert(window.outerWidth);
+
+            //alert(window.innerWidth);
+
+            //$box.ID.css({"background-color":"red"});
+        })
+
+        function create_box(){
+            var number = boxes.length+1;
+
+            randSize = get_random(1, 25)+"vmax";
+            $div = $("<div></div>")
+                .text(number).addClass("box"+number)
+                .css({"background-color":"blue",
+                    "display":"flex",
+                    "position":"absolute",
+                    "font-size":randSize,
+                    "color":"#FFFFFF"
+
+                }).attr({"xspeed":get_random(-10,10), "yspeed":get_random(-10,10),
+                    "left":window.innerWidth/2, "top":window.innerHeight/2});
+            //$box = $div.clone();
+
+            $("#boxes").append($div);
+            var $b = $container.find(".box"+number);
+            $b.css({"left": ((window.innerWidth-($b.width()/2))/2),
+                "top": ((window.innerHeight-($b.height()/2))/2)});
+            boxes.push($div);
+            //alert($container.find(".box").last().text());
+            //$box = $container.find(".box").last();
+            //$box.attr("top");
+            //alert($box.attr("xspeed"));
+            //var $b = $container.find(".box"+number);
+            console.dir(window.innerWidth);
+            console.dir($b.width());
+            console.dir($b.css("left"));
+
+
+
+            movement();
+        }
+        $removeAll.on("click", function(){
+
+            $("#boxes").children().remove();
+            boxes = [];
+
+        })
+
+        function get_random(min, max){
+            var random = Math.random()*(+max - +min) + +min;
+            return random;
+
+        }
+
+
+
+        function updateAnimation() {
+            //alert($container.find(".box").last().text());
+            for(var i=1; i<=boxes.length; i++){
+
+                var  $box = $container.find(".box"+i);
+                var valY = parseInt($box.css("top"));
+
+                var speedY = parseInt($box.attr("yspeed"));
+                var valX = parseInt($box.css("left"));
+                var speedX = parseInt($box.attr("xspeed"));
+
+                //alert(speedX);
+                valY=valY+speedY;
+                valX=valX+speedX;
+                // alert(valX);
+
+
+                //$box.y = $box.y + $box.yspeed;
+                //$box.x = $box.x + $box.xspeed;
+                //alert(window.innerWidth-valX);
+                if (valX <= -1 || valX >= window.innerWidth-
+                    $box.width()) {
+                    speedX = speedX * -1;
+                    $box.attr({"xspeed":speedX});
+                }
+
+                if (valY <= -1 || valY >= window.innerHeight-
+                    $box.height()) {
+                    speedY = speedY * -1;
+                    $box.attr({"yspeed":speedY});
+                }
+
+                //$box.ID.style.top =$box.y + "px";
+                //$box.ID.style.left = $box.x + "px";
+
+                $box.css({"top": valY+"px", "left":valX+"px"});
+            }
+
+        }
+
+        function movement(){
+            if(boxes.length > 0){
+                setInterval(updateAnimation, 100);
+            }
+
+            window.onresize= function(){
+                for(var i=1; i<=boxes.length; i++){
+
+                    var  $box = $container.find(".box"+i);
+                    var valY = parseInt($box.css("top"));
+
+                    var speedY = parseInt($box.attr("yspeed"));
+                    var valX = parseInt($box.css("left"));
+                    var speedX = parseInt($box.attr("xspeed"));
+
+                    //alert(speedX);
+                    valY=valY+speedY;
+                    valX=valX+speedX;
+                    // alert(valX);
+
+
+                    //$box.y = $box.y + $box.yspeed;
+                    //$box.x = $box.x + $box.xspeed;
+                    //alert(window.innerWidth-valX);
+                    if (valX <= -1 || valX >= window.innerWidth-
+                        $box.width()) {
+                        $box.css({"left": ((window.innerWidth-($box.width()/2))/2),
+                            "top": ((window.innerHeight-($box.height()/2))/2)});
+                    }
+
+                    if (valY <= -1 || valY >= window.innerHeight-
+                        $box.height()) {
+
+                        $box.css({"left": ((window.innerWidth-($box.width()/2))/2),
+                            "top": ((window.innerHeight-($box.height()/2))/2)});
+                    }
+
+                    //$box.ID.style.top =$box.y + "px";
+                    //$box.ID.style.left = $box.x + "px";
+
+                    //$box.css({"top": valY+"px", "left":valX+"px"});
+
+                }
+
+            }
+        }
+
+
+
+
+
+
+
+    })
+
+
+
+
+
+
+
+</script>
+
+<div id="container" class="btn-group">
+    <button id="add" type="button" class="btn btn-primary">Add Box</button>
+    <button id= "remove" type="button" class="btn btn-secondary">Remove Box</button>
+    <button id="remAllBox" type="button" class="btn btn-danger">Remove All</button>
+    <div id="boxes"></div>
+
+
+</div>
+
+
+
+
+</body>
+</html>

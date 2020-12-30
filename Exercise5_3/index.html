@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Exercise 5.3</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.min.js"></script>
+</head>
+<body>
+
+
+<div data-role="page" id="home">
+
+    <div data-role="header">
+        <h1>Home Page Title</h1>
+    </div>
+
+    <div data-role="content">
+        <p>I am on Home Page!</p>
+    </div>
+
+    <div data-role="footer">
+        <a href="#page2" class="ui-btn-left" data-transition="slide" data-direction="reverse">Go to Page2</a>
+        <a href="#page3" class="ui-btn-right" data-transition="slide">Go to Page3</a>
+    </div>
+</div>
+
+
+<div data-role="page" id="page2">
+
+    <div data-theme="a" data-role="header"  data-position="fixed">
+        <h1>Page2 Title</h1>
+    </div>
+
+    <div data-role="content">
+        <p>I'm on Page2!</p>
+    </div>
+
+    <div data-theme="a" data-role="footer">
+        <a href="#home" class="ui-btn" data-transition="slide">Go Home</a>
+    </div>
+
+</div>
+
+
+<div data-role="page" id="page3">
+
+    <div data-theme="b" data-role="header"  data-position="fixed">
+        <h1>Page3 Title</h1>
+    </div>
+
+    <div data-role="content">
+        <p>I'm on Page3!</p>
+    </div>
+
+    <div data-theme="a" data-role="footer">
+        <a href="#home" class="ui-btn" data-transition="slide" data-direction="reverse">Go Home</a>
+    </div>
+
+</div>
+
+</body>
+</html>

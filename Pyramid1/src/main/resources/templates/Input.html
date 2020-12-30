@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Input</title>
+</head>
+<body>
+<h1>Input</h1>
+<!--/*@thymesVar id="form" type="sheridan.patel.pyramid1.PyramidForm"*/-->
+<form method="get" action="Calculate.do" th:object="${form}">
+    <label for="height">Height </label>
+    <input id="height" type="text" th:field="*{height}"/>
+    <input type="submit" value="Send"/>
+</form>
+</body>
+</html>

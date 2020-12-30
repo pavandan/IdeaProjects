@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Exercise3_7</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+<body>
+
+<!--
+Try the following jQuery selectors:
+$( "input:checked" );
+$( "input[type=radio]:checked" );
+$( "input[type=radio]").filter(":checked");
+$( "input").filter("[type=radio]").filter(":checked");
+
+Attached click event to the button and get values of the input fields in the console.
+Try the following:
+  $( "input:checked" ).val();
+  $( "input[type=radio]:checked" ).val();
+  $( "input[type=radio]").filter(":checked").val();
+  $( "input").filter("[type=radio]").filter(":checked").val();
+  $( "form").find(":checked" ).val();
+  $("input[name=city").val("Brampton");
+  $("input").filter("[name=city]").val("Brampton");
+  $("input").filter("[name^=cit]").val("Brampton");
+-->
+
+
+
+<form>
+    <fieldset>
+        <p>Full Name:</p> <input type="text" name="full_name" value="Alex B" placeholder="Type in your name" /> <br />
+        <p>E-mail:</p> <input type="text" name="email" value="" placeholder="Type in your email" /> <br />
+        <p>IT Experience:</p>
+        <input type="radio" name="it" value="1" />1 year<br />
+        <input type="radio" name="it" value="2" checked="checked" />2 years<br />
+        <input type="radio" name="it" value="3" />3 years<br />
+        <input type="button" value="Go" />
+    </fieldset>
+</form>
+
+<script>
+    $(document).ready(function () {
+
+        var $input = $("#form").find("input");
+
+        $input.filter("[type='button']").click(  function(){
+
+            console.log( "Full Name: " + $input.filter("[name='full_name']").val()  );
+            console.log( "Email: " + $("input[name='email']").val()  );
+            console.log ( "IT Experience: " + $input.filter("[name='it']").filter(":checked").val()  );
+
+        });
+
+    });
+</script>
+</body>
+</html>

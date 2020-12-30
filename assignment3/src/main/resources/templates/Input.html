@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link th:href="@{css/normalize.css}" href="../static/normalize.css" rel="stylesheet" type="text/css"/>
+    <link th:href="@{css/main.css}" href="../static/main.css" rel="stylesheet" type="text/css"/>
+   <title>Input</title>
+</head>
+<body>
+<h1>Input Pyramid Data</h1>
+<!--/*@thymesVar id="errors" type="java.util.ArrayList<java.lang.String>"*/-->
+<div th:if="${not #lists.isEmpty(errors)}">
+    <h3 class="error">Input Errors:</h3>
+    <ul>
+        <li class="error" th:each="e: ${errors}" th:text="${e}">Error</li>
+    </ul>
+</div>
+<!--/*@thymesVar id="form" type="vandan.patel.assignment3.PyramidForm"*/-->
+<form method="get" action="Calculate.do" th:object="${form}">
+    <p>
+        <label for="shap">Polygon:&nbsp;&nbsp; </label>
+        <select id="shap" th:field="*{baseN}" onchange="outputValue(this)">
+            <option value=3>Triangle (N=3)</option>
+            <option value=4>Square (N=4)</option>
+            <option value=5>pentagon (N=5)</option>
+            <option value=6>hexagon (N=6)</option>
+            <!--/*@thymesVar id="shapes" type="vandan.patel.assignment3.PyramidController"*/-->
+            <!--<option th:each="s: ${shapes}" th:value="${s}" th:text="${s}">Shape</option>-->
+        </select>
+    </p>
+
+    <p>
+        <label for="baseSide">Base Side</label>
+        <input id="baseSide" type="text" th:field="*{baseSide}">
+    </p>
+    <p>
+        <label for="height">Height &nbsp;&nbsp;&nbsp;&nbsp; </label>
+        <input id="height" type="text" th:field="*{height}"/>
+    </p>
+
+    <p>
+        <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+        <input type="submit" value="Calculate"/>
+    </p>
+</form>
+</body>
+</html>

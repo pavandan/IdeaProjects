@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Exercise1_1</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+</head>
+<body>
+<div id="content">
+    <p>This is the first paragraph</p>
+    <p>This is the second paragraph</p>
+    <p>You get the idea...</p>
+</div>
+
+<div id="container"><p id="foo">This is a paragraph of text with a <a href="page.html">hello</a>.</p>
+
+    <p>Second paragraph</p>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(event) {
+
+        // ---------------- Part 1 -------------------
+
+        var content = document.getElementById("content");
+
+        content.addEventListener("click", function(event) {
+
+            // Try also:         var allPs = document.getElementsByTagName("p");
+            // var allPs = content.children;
+            var allPs = this.children;
+            console.log(allPs.length);
+
+            for (var i = 0; i < allPs.length; i++) {
+                var currentStyle = allPs[i].style;
+                currentStyle.backgroundColor = (currentStyle.backgroundColor == 'yellow') ? 'white' : 'yellow';
+            }
+
+
+
+        }, false);
+
+        // ---------------- Part 2 -------------------
+
+        var foo = document.getElementById("foo"); //let's cache this selector
+
+        console.log ("-------------");
+        console.dir( foo.firstChild);
+        console.dir( foo.firstElementChild);
+
+        console.dir( foo.lastChild );
+        console.dir( foo.lastElementChild);
+
+
+        console.log ("-------------");
+        console.dir( foo.nextSibling);
+
+        console.log ("-------------");
+        console.dir( foo.parentNode );
+
+        console.log ("-------------");
+        console.dir( foo.firstChild.nextSibling);
+        console.log( foo.firstChild.nextSibling.textContent);
+
+
+        // ---------------- Part 3 -------------------
+
+        // Delay:
+        setTimeout(function(){
+
+            // let's change style to "red" using DOM traversal
+            var node=document.getElementById("content").firstElementChild;
+
+            while (node) {
+                node.style.backgroundColor = "red";
+                node=node.nextElementSibling;
+            }
+
+        }, 2500);
+
+
+        // ---------------- Part 4 -------------------
+
+        function walkTheDOM(node, func) {
+            func(node);
+            node = node.firstElementChild;
+            while (node) {
+                walkTheDOM(node, func);
+                node = node.nextElementSibling;
+            }
+        }
+
+        // To call the function
+        // Uncomment one of the console prints!
+        walkTheDOM(document.body, function(node){
+            console.log(node.nodeName + "=" + node.nodeType);
+            //console.dir(node);
+        });
+
+    },false);
+</script>
+</body>
+</html>

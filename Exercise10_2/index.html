@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Exercise 10.2</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+
+    <!-- Latest compiled and minified CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+
+    <style>
+        tbody {
+            visibility:hidden;
+        }
+        h4 {
+            font-weight: bold;
+        }
+    </style>
+
+</head>
+<body>
+
+<div class="container">
+    <!-- row 2 -->
+    <div class="row">
+        <div class="col-md-10 offset-md-1">
+            <h4>Book Signing Event</h4>
+            <table class="table table-striped table-bordered table-hover">
+                <thead class="thead-dark" >
+                <tr>
+                    <th>
+                        <h5>Author</h5>
+                    </th>
+                    <th>
+                        <h5>Book</h5>
+                    </th>
+                    <th>
+                        <h5>Price</h5>
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-10 offset-md-1 text-center">
+            <button id="btnSubmit" type="button" class="btn btn-info">Load Data</button>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", initApp);
+
+    function initApp() {
+
+        var btnSubmit=document.getElementById("btnSubmit");
+        btnSubmit.addEventListener("click", loadData, false);
+
+        var tbody = document.querySelector("tbody");
+
+        var data=null;
+
+        var btnSubmitText=btnSubmit.textContent;
+        var url = "http://babanski.com/files/ajax/book_signing_event.json";
+
+        var xhr=new XMLHttpRequest();
+
+        xhr.onreadystatechange=function (ev) {
+            if(this.readyState==XMLHttpRequest.OPENED){
+                btnSubmit.textContent="Please Wait!";
+                tbody.style.visibility="hidden";
+            }
+            else if(this.readyState==XMLHttpRequest.DONE){
+                if(this.DONE==200){
+                    data=JSON.parse(this.responseText);
+
+                    var row="";
+                    var key=0;
+                    var length=data.section.signing.length;
+                    for(;key<length;++key){
+                        var obj=data.section.signing[key];
+                        row+="<tr>";
+                        row+="<td>"+obj.author.title+" "+obj.author.name+"</td>";
+                        row+="<td>"+obj.book.title+"</td>";
+                        row+="<td>"+obj.book.price+"</td>";
+                        row+="</tr>"
+                    }
+                }else {
+                    row="<tr><td colspan='3'>Error: cannot get data!</td></tr>"
+                }
+                tbody.innerHTML=row;
+
+                btnSubmit.textContent="Re-"+btnSubmitText;
+                tbody.style.visibility="visible";
+            }
+        };
+        function loadData(event) {
+            event.preventDefault();
+            xhr.open("GET",url+"?"+(new Date()).getTime(),true);
+            xhr.timeout = 6000;
+
+            xhr.send();
+
+        }
+    };
+
+</script>
+</body>
+</html>

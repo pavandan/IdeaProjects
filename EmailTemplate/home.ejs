@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>
+    <%= title %>
+  </title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="/css/account.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+  <style>
+          .filter{
+              position: fixed;
+              width: 200px;
+              height: 100%;
+              background: #cccccc;
+              float: left;
+
+          }
+          .tab-content{
+
+          }
+      </style>
+</head>
+
+<body>
+
+  <% var current= 'home' %>
+    <%- include ./partials/head  %>
+        <div class="filter">
+            <h3 style="text-align: center"> Filters</h3>
+            <div>
+                <label for="recently"> Recently Added</label>
+                <input type="checkbox" id="recently" name="recently" value="true"><br>
+                <label for="happening-soon"> Happening Soon</label>
+                <input type="checkbox" id="happening-soon" name="recently" value="true"><br>
+                <label for="nearest"> Nearest Location</label>
+                <input type="checkbox" id="nearest" name="recently" value="true"><br>
+                <div>
+                    <h4> Search by skill</h4>
+                    <input id="inputSkill" type="text" placeholder="Skill"><br>
+                </div>
+
+                <div>
+                    <h4>Distance </h4>
+                    <input id="inputDistance" type="range" min="1" max="100" value="20">
+                </div>
+
+                <div>
+                    <label for="credential"> With Credential Only</label>
+                    <input type="checkbox" id="credential" name="credential" value="true"><br>
+                </div>
+                <div>
+                    <h4> Search by City</h4>
+                    <span class="glyphicon glyphicon-search form-control-feedback"></span>
+                    <input id="inputCity" type="text" placeholder="City"><br>
+                </div>
+            </div><br>
+
+
+              <select>
+                        <option value="" disabled selected>Select</option>
+                        <option value="Service">Service</option>
+                        <option value="Event">Event</option>
+                        <option value="Rental">Rental</option>
+                        <option value="Advisory">Advisory</option>
+                        <option value="Training">Training</option>
+
+               </select>
+            <div class="model-buttons" style="text-align: center;">
+                <button type="button" style="width: 100px;" onclick="filter()">Apply Filters</button>
+
+            </div>
+            <script>
+                function filter(){
+                    const recently = document.getElementById("recently").value;
+                    const happening = document.getElementById("happening-soon").value;
+                    const nearest = document.getElementById("nearest").value;
+                    const skill = document.getElementById("inputSkill").value;
+                    const distance = document.getElementById("inputDistance").value;
+                    const credential = document.getElementById("credential").value;
+
+
+
+                }
+            </script>
+
+        </div>
+
+      <div class="tab-content">
+
+        <div class="container account-contain profile-post-padding">
+
+          <div class="form-group has-feedback has-search">
+
+
+            <span class="glyphicon glyphicon-search form-control-feedback"></span>
+            <input type="text" id="input" class="form-control" placeholder="Desired Job Title"/>
+        </div>
+
+          <div class="tab-content">
+
+            <ul class="list-group account-underlist">
+                <script>
+
+                document.getElementById("input").addEventListener('input', updateValue);
+                function updateValue(e){
+                 const n = e.target.value;
+                 console.log(n);
+
+
+                }
+
+                </script>
+              <% if(posts && posts.length > 0) {
+
+
+
+
+          posts.forEach( p => {
+
+           if(p.name != null && p.profile.visible && p.isActive && (p.name).includes("")  ) {%>
+                <li class="list-group-item" style="min-height: 100px;">
+                  <div class="account-list-div">
+                    <%if (p.postTypes == "Service")  { %>
+                      <img src="/images/service.png" class="profile-img toggle-align">
+                      <% }else if (p.postTypes == "Event") { %>
+                        <img src="/images/event.png" class="profile-img toggle-align">
+                        <%  } else if (p.postTypes == "Rental") { %>
+                          <img src="/images/rental.png" class="profile-img toggle-align">
+                          <%  }  else if (p.postTypes == "Advisory") { %>
+                            <img src="/images/advisory.png" class="profile-img toggle-align">
+                            <%  }else { %>
+                              <img src="/images/training.png" class="profile-img toggle-align">
+                              <%  }  %>
+                  </div>
+
+                  <div class="account-list-grp-title">
+                    <div>
+                      <a href="/post/<%=p.id %>/<%=userId %>">
+                        <h4><%= p.name %></h4>
+                      </a>
+                      <%= p.profile.name %>
+                    </div>
+                  </div>
+                  <%if (p.credentialOffer == true)  { %>
+                    <img src="/images/checkmark.svg" class="profile-img">
+                    <% }else{ %>
+                      <div class="profile-img">
+                        <p>
+                        </p>
+                      </div>
+                      <%  }  %>
+                        <div class="account-list-div" style="margin-left: 20px;">
+                          <img src="<%= p.profile.profileImage %>" class="profile-img">
+                        </div>
+                        <div class="account-list" style="margin-left: 20px;">
+                          <% groups.forEach( group => {
+                if(p.ssgroupId === group.id){ %>
+                            <img src="<%= group.groupImage %>" class="profile-img">
+                            <%  }
+              }); %>
+                        </div>
+                </li>
+                <% } });
+         } else { %>
+                  <h4> There are no community posts yet. Please join a
+                    <a onclick="navigateDiscover('<%= userId %>')">group</a> to view posts. </h4>
+                  <script>
+                    function navigateDiscover(userId) {
+                      var discover = 'discover';
+                      location.href = "/group/" + userId + "/" + discover;
+                    }
+                  </script>
+                  <% } %>
+            </ul>
+          </div>
+        </div>
+      </div>
+</body>
+
+</html>

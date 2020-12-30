@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Exercise 9.3</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.min.js"></script>
+
+    <style>
+        .ui-block-a, .ui-block-b{
+            padding:20px;
+        }
+    </style>
+</head>
+
+<body>
+<div data-role="page" id="home">
+    <header data-role="header">
+        <h1>Student Registration</h1>
+    </header>
+
+    <div data-role="content">
+        <section class="ui-grid-a">
+            <section class="ui-block-a">
+                Name<br />
+                <input type="text" name="sname" id="sname" placeholder="Student Name">
+                <br />
+
+                Campus<br />
+                <input type="text" name="campus" placeholder="Your Campus">
+                <br />
+
+                <fieldset>
+                    <label for="age">Age:</label>
+                    <input type="range" name="age" data-highlight="true" id="age" min="1" max="130" value="20">
+                </fieldset>
+
+            </section>  <!-- block-a -->
+            <section class="ui-block-b">
+                <div>
+                    <fieldset>
+                        <legend>Select your Program:</legend><br />
+                        <label>
+                            <input type="radio" name="program" value="CP" checked>
+                            Computer Programmer</label>
+                        <label>
+                            <input type="radio" name="program"  value="SA">
+                            System Analyst</label>
+                        <label>
+                            <input type="radio" name="program"  value="CST">
+                            Network Engineering</label>
+                        <label>
+                            <input type="radio" name="program"  value="OTHER">
+                            Other</label>
+                    </fieldset>
+                </div>
+            </section>
+        </section>    <!-- grid-a -->
+        <section class="ui-grid-solo">
+
+            <div data-role="popup" id="pop" data-position-to="window" data-transition="turn"></div>
+
+            <button id="register" class="ui-btn ui-icon-star ui-btn-icon-left">Save Info</button>
+            <button id="retrieve" class="ui-btn ui-icon-action ui-btn-icon-left">Retrieve Info</button>
+            <button id="clear" class="ui-btn ui-icon-delete ui-btn-icon-left">Clear Info</button>
+
+        </section>
+
+    </div>          <!-- data-role=content -->
+</div>            <!-- data-role=page -->
+
+
+<script>
+    // Notice '#home' selector below!!
+    $(document).on("pagecreate", '#home', initApp);
+
+    function initApp() {
+
+        $pop=$("#pop");
+
+        $sname = $("#sname");
+        $input=$("#home").find('input');
+
+
+        $program = $input.filter("[name='program']");
+        $campus = $input.filter("[name='campus']");
+        $age = $input.filter("[name='age']");
+
+        var click_event = $.support.touch ? "tap" : "click";
+
+        // We can also use "vclick" event: https://api.jquerymobile.com/vclick/
+        //$("#register).on("vclick", function() {....});
+
+        $("#register").on(click_event, function(){
+
+            event.preventDefault();
+            var sname = $sname.val().trim();
+            var campus = $campus.val().trim();
+            var age = parseInt($age.val().trim());
+
+            var errMsg="";
+            if (sname.length<3) {
+                errMsg +="Name is too short!<br />";
+            }
+            if (campus.length<1) {
+                errMsg +="Campus cannot be empty!<br />";
+            }
+
+            if (age <7) {
+                errMsg +="Incorrect age!<br />";
+            }
+
+
+            if (errMsg.length>0) {
+                showPopup(errMsg);
+                return;
+            }
+
+            localStorage.setItem("sname", sname);
+            localStorage.setItem("campus", campus);
+            localStorage.setItem("age", age);
+            localStorage.setItem("program", $program.filter(':checked').val());
+
+            showPopup("Registration Saved");
+
+
+        });
+
+
+        $("#retrieve").on(click_event, function() {
+            // Do we have anything in localStorage?
+            if (localStorage.length < 4 || !localStorage.getItem('sname') ) {
+                showPopup('Nothing to retrieve!');
+                return true;
+            }
+
+            // pulling items individually
+            $sname.val(localStorage.getItem("sname"));
+            $program.filter('[value="' + localStorage.getItem("program") + '"]').prop('checked', true);
+            $program.checkboxradio("refresh");
+
+            $campus.val(localStorage.getItem("campus"));
+            $age.val(localStorage.getItem("age")).slider("refresh");
+
+        });  // end of retrieve
+
+        $("#clear").on(click_event, function() {
+            localStorage.clear();
+            showPopup("Storage cleared");
+        }); // end of clear
+
+
+        // Let's define our own jQuery Mobile popup
+        function showPopup(message) {
+            $pop.html('<p>'+message+'</p>').popup("open");
+            setTimeout(function(){  $pop.popup("close"); }, 1500);
+        }
+
+
+    };
+</script>
+</body>
+</html>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="css/main.css">
+    <title>Output</title>
+
+</head>
+<body>
+<h1>Output</h1>
+<!--/*@thymesVar id="employee" type="ca.midterm.part2.p2.Employee"*/-->
+<div th:object="${employee}">
+    <p>
+        <label>Employee Name: </label>
+        <span class="output" th:text="*{name}">Name: </span>
+    </p>
+    <p>
+        <label>Department: </label>
+        <span class="output" th:text="*{department}"></span>
+    </p>
+
+</div>
+<p><a href="/Input.do">Input</a> </p>
+</body>
+</html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Exercise2_3</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <style>
+        .redText {
+            color:red;
+        }
+    </style>
+
+</head>
+<body>
+<!--
+Add more paragraphs using different methods.
+Minimize reflow using temp variable.
+Experiment with .append(), .clone() and JS Loop
+-->
+
+<p>Number 1</p>
+<p>Number 2</p>
+
+<script>
+    $(document).ready( function (e) {
+
+        var num3 = $("<p>Number3</p>");
+        $("p").last().after( num3 );
+
+        //exit;
+        $("p").last().after( $("<p>Number4</p>") );
+        num3.addClass("redText").hide(5000);
+
+        //$("p").last().after( $("<p>Number3</p>") );
+        //$("p").last().after( $("<p>Number4</p>") );
+
+        //$("p").last().after( "<p>Number3</p><p>Number4</p>" );
+
+        var temp="";
+        for (var i=3; i<11; i++) {
+
+            //temp +="<p>Number" + i +"</p>";
+            $("p").last().after("<p>Number" + i +"</p>");
+        }
+        $("p").last().after( temp );
+        exit;
+
+
+
+
+                        var Pnode=$("<p></p>");
+
+                        $("p").last().after(  Pnode.text("Number 11").css("background-color","yellow")    );
+
+                        //$("p").last().after(  Pnode.text("Number 12").css("background-color","yellow")    );
+
+                        $("p").last().after( $("p").last().clone().text("Number 12") );
+
+                        $("p").first().toggleClass("redText");
+
+                        $("p").first().toggleClass("redText");
+
+
+
+        // Test1: add nodes individualy:
+        $('p').last().after("<p>Number 3</p>");
+        // or:
+        $('p').last().after($("<p>Number 4</p>"));
+
+        // Test 2: create a node and add it
+        var $P=$("<p></p>");  // create a new node through variable
+        $('p').last().after( $P.text("Number 5").addClass("redText") );
+        //This won't work: $('p').last().after($P.text("Number 6"));
+
+        // Test 3: add nodes using "clone"
+        var $p = $("p").last().clone(true); // clone an existing node
+        $('p').last().after($p.text("Number 6"));
+        //This won't work: $('p').last().after($p.text("Number 7"));
+        $('p').last().after($p.clone().text("Number 7"));
+
+        // Test 4: Add multiple nodes directly!
+        $("p").last().after("<p>Number 8</p><p>Number 9</p><p>Number 10</p>");
+
+
+        // Test 5: Add multiple nodes in a loop
+        // Cache the node:
+        var $p = $("p").last();
+
+        // Create a temp variable for .append()
+        var temp="";
+
+        // Create a loop where nodes are added to temp variable
+        for (var i = 11; i < 16; i++) {
+            temp += "<p>Number " + i + "</p>";
+        }
+
+        $p.after( temp );
+
+    });
+</script>
+</body>
+</html>

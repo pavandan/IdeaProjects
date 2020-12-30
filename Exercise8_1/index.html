@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script type="text/javascript" src="./js/block.js"></script>
+
+    <title>Title</title>
+</head>
+<body>
+
+<h1>Hello, WOrld</h1>
+<p id="myID"></p>
+<h2>Done page loading!</h2>
+<script>
+    function createJS() {
+        var node=document.createElement("script");
+        node.defer=true;
+        node.src="./js/block.js";
+        document.body.appendChild(node);
+
+    }
+</script>
+
+
+</body>
+</html>

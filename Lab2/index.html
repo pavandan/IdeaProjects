@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Lab2</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+</head>
+<body>
+
+<h1>Event Registration Form</h1>
+<form>
+    <div class="form-group row">
+        <label for="invitation" class="col-sm-2 col-form-label">Invitation ID</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" id="invitation" placeholder="Invitation ID">
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="yourname" class="col-sm-2 col-form-label">Your name</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" id="yourname" placeholder="Your name">
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="company" class="col-sm-2 col-form-label">Company</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" id="company" placeholder="Company">
+        </div>
+    </div>
+
+    <fieldset class="form-group">
+        <div class="row">
+            <legend class="col-form-label col-sm-2 pt-0">Type</legend>
+            <div class="col-sm-10" id="type">
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios1" value="Sole proprietorship" checked>
+                    <label class="form-check-label" for="gridRadios1">
+                        Sole_proprietorship
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="Partnership">
+                    <label class="form-check-label" for="gridRadios2">
+                        Partnership
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios3" value="Corporation" >
+                    <label class="form-check-label" for="gridRadios3">
+                        Corporation
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios4" value="Other" >
+                    <label class="form-check-label" for="gridRadios4">
+                        Other
+                    </label>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+
+    <div id="msg" class="alert alert-warning" role="alert" hidden></div>
+    <div class="form-group col">
+            <button type="submit" class="btn btn-primary" id="register">Register</button>
+            <button type="submit" class="btn btn-secondary" id="checkregistration">Check Registration</button>
+            <button type="submit" class="btn btn-warning" id="deleteregistration">Delete Registration</button>
+    </div>
+
+</form>
+<script>
+    $(document).ready(initApp);
+
+    function initApp()  {
+        //console.log("page created");
+        var $id = $("#invitation");
+        var $yourname = $("#yourname");
+        var $company = $("#company");
+        var $type = $("#type");
+        var $btnSubmit=$("#register");
+        var $checkregistration=$("#checkregistration");
+        var $deleteregistration=$("#deleteregistration");
+        var $msg=$("#msg");
+
+        var db;
+
+        var click_event = $.support.touch ? "tap" : "click";
+
+        var dbSupported = ("indexedDB" in window) ? true : false;
+
+        function errorCheck(ID, error){
+            if (ID.length <1){
+                error+="Invitation ID cannot be empty</br>";
+                showPopUp(error);
+                return true;
+            }
+        }
+
+        $("#alertClose").click(function(){
+            $(this).parent().hide();
+        });
+        function showPopup(message) {
+            $msg.html(message).parent().show(1000);
+            setTimeout(  function() { $msg.parent().hide(1000);}, 2500 );
+        }
+
+
+        if (dbSupported) {
+            var openRequest = window.indexedDB.open("registrationDB", 1);
+
+            openRequest.onupgradeneeded = function (event) {
+               // console.log("DB upgrading");
+
+                db = openRequest.result;
+                if (!db.objectStoreNames.contains("registration")) {
+
+
+                    db.createObjectStore("registration", {keyPath: "id"});
+                }
+
+            };
+            openRequest.onsuccess = function (event) {
+                //console.log("DB success");
+
+                db = openRequest.result;
+            };
+
+            openRequest.onerror = function (event) {
+                console.log("DB error");
+
+                console.dir(event);
+            };
+        }
+
+
+        $btnSubmit.on(click_event, function () {
+            //console.log("register is clicked");
+            var id = $id.val();
+            var yourname = $yourname.val();
+            var company = $company.val();
+            var type = $("input[name='gridRadios']:checked").val();
+            var errMsg='';
+
+            var registration = {id: id, yourname: yourname, company: company, type: type};
+
+            if(id.length<1){
+                errMsg+='Invitation ID cannot be empty<br/>';
+            }
+            if(yourname.length<1){
+                errMsg+='Your name cannot be empty<br/>';
+            }
+            if(company.length<1){
+                errMsg+='Company cannot be empty<br/>';
+            }
+            if(errMsg.length>1){
+                //alert(errMsg);
+                showPopup(errMsg);
+                return true;
+            }else{
+                showPopup("Registration Info Saved");
+            }
+
+            var transaction = db.transaction(["registration"],"readwrite");
+
+            transaction.oncomplete = function (event) {
+                console.log("Transaction Complete");
+            };
+            transaction.onerror = function (event) {
+                console.log("Transaction Failed");
+
+            };
+
+            var storeRequest = transaction.objectStore("registration").put(registration);
+
+            storeRequest.onsuccess = function () {
+                console.log("Registration Info Saved");
+            };
+
+            storeRequest.onerror = function () {
+                console.log("Database Error: cannot save Student Info");
+            };
+
+        });
+        $checkregistration.on(click_event, function () {
+            //console.log("check is clicked");
+            var id = $id.val();
+            var error="";
+            errorCheck(id,error);
+            if (id.length > 1) {
+
+
+                var storeRequest = db.transaction(["registration"], "readwrite").objectStore("registration").get(id);
+
+                storeRequest.onsuccess = function () {
+                    console.log("storeRequest");
+
+                    // storeRequest.result will have the result of the query above! It'll have the JS student Object we put before!
+                    if ((storeRequest.result) && ("yourname" in storeRequest.result)) {
+                        $yourname.val(storeRequest.result.yourname);
+                        $company.val(storeRequest.result.company);
+                        $("input[name='gridRadios']").each(function () {
+                            if ($(this).val() === storeRequest.result.type) {
+                                $(this).prop("checked", true);
+                            }
+                        });
+                        showPopup("Invitation was successfully retrieved");
+                    } else {
+                        //console.log("Invitation ID doesn't exist in the database");
+                        showPopup("Invitation ID doesn't exist in the database");
+                    }
+
+
+                };
+            }
+        });
+
+        $deleteregistration.on(click_event,function () {
+            var id=$id.val();
+            var error="";
+            errorCheck(id,error);
+            var request = db.transaction(["registration"],"readwrite").objectStore("registration").delete("id");
+            request.onsuccess=function () {
+                //console.log("Registration deleted");
+                showPopup("Registration deleted")
+            };
+            request.onerror=function () {
+                console.log("No Registration found for this invitation ID");
+                showPopup("No Registration found for this invitation ID");
+            };
+
+        })
+    }
+
+</script>
+
+
+</body>
+</html>

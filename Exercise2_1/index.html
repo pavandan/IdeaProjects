@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Exercise2_1</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+</head>
+<body>
+
+<!--
+    Using jQuery change the Price
+    1. flight to Toronto from $299 to $149.
+    2. flight to New York from $399 to $349.
+    Try to use at least 3 different selectors
+-->
+<div id="id1">
+
+    <div class="container">
+        <h2>Welcome to jQuery</h2>
+        <p>Fly to Toronto for  <span id="id2" class="price">$299</span></p>
+        <p>Fly to New York for  <span  class="price">$399</span></p>
+    </div>
+
+</div>
+<script>
+    $(document).ready(function () {
+        //$("#id2").text("$149");
+        //$("span").first().text("$149");
+        $(".price").first().text("$149");
+
+
+
+    });
+</script>
+
+</body>
+</html>

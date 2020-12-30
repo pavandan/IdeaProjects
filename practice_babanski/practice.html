@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>PROG20261 Midterm Part II: Problem A</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <style type="text/css">
+        button {
+            background-color:#768d87;
+            border:1px solid #566963;
+            display:inline-block;
+            cursor:pointer;
+            color:#ffffff;
+            font-family:Arial;
+            font-size:13px;
+            padding:6px 24px;
+            text-decoration:none;
+        }
+
+        button:active {
+            position:relative;
+            top:1px;
+        }
+
+        li:hover{
+            background:yellow;
+        }
+
+        button:hover {
+            background-color:#454847;
+        }
+    </style>
+</head>
+<body>
+<button id="add">Add Element</button>
+<button id="show">Show All</button>
+
+<script>
+    $(document).ready(function () {
+
+        var $UL=$("<ul></ul>");
+        var UL ="";
+
+        for (var i=1;i<=10;i++){
+            UL += "<li>Number"+i+"</li>";
+        }
+
+        $UL.append(UL);
+
+
+        $("body").append($UL);
+
+        $UL.on("mouseover mouseleave","li",function () {
+            $(this).toggleClass("highlight");
+        })
+
+    });
+
+</script>
+</body>
+</html>

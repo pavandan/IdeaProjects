@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Exercise2_2</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <style>
+        .lightgray {background-color:lightgray;}
+        .yellow {background-color:yellow;}
+        .highlight {
+            background-color: #FAF0E6;
+            transition: 0.9s;
+            transition-timing-function: ease;
+        }
+    </style>
+</head>
+<body>
+<!--
+     Using jQuery only:
+     In the "Guided Tours":
+     1. Change text of <h2> from "New York, New York" to "Toronto, Ontario".
+     2. Change details of all the vacations to "$999 for 7 nights"
+     3. Change details of all the Europe vacations (class "europe") to "$799 for 7 nights"
+     4. Change details of vacation in Spain to "$399 for 5 nights"
+     5. What happens when you use  $(".europe").children().last().text("");  Why?
+        What about $("#tours").find("span.europe").children().last().prev().text(""); ?
+
+     In the "Disclaimer"
+     6. change background of every other <li> element to lightgray
+     7. change background of 5-th elements to yellow. Then of every 5th element!
+     8. Keep only 10 <li> elements and hide or remove the rest!
+
+     In Guided Tours:
+     9. Periodically highlight all <h2> elements in "Guided Tours"
+
+-->
+
+<div id="container">
+    <h1>Guided Tours</h1>
+    <ul id="tours">
+        <li class="america">
+            <h2>New York, New York</h2>
+            <span class="details">$1,899 for 7 nights</span>
+        </li>
+        <li class="europe">
+            <h2>Paris, France</h2>
+            <span class="details">$2,499 for 7 nights</span>
+        </li>
+        <li class="europe sale">
+            <h2>Madrid, Spain</h2>
+            <span class="details">$1,577 for 5 nights</span>
+        </li>
+        <li class="asia">
+            <h2>Tokyo, Japan</h2>
+            <span class="details">$1,999 for 5 nights</span>
+        </li>
+    </ul>
+
+
+    <h1>Disclaimer:</h1>
+
+    <!-- Lorum Ipsum: https://www.lipsum.com/ -->
+    <ul id="legal">
+
+        <li>Quisque imperdiet elit a condimentum pellentesque.</li>
+        <li>Vestibulum tristique nibh nec leo auctor facilisis.</li>
+        <li>Aliquam in augue sit amet leo pharetra porta ut quis tellus.</li>
+        <li>Nulla in dui ac nibh laoreet dapibus.</li>
+        <li>Praesent eu augue nec sem condimentum viverra.</li>
+        <li>Etiam facilisis felis porta fringilla congue.</li>
+        <li>Nam et enim tristique, varius quam ac, tempus nunc.</li>
+        <li>Praesent condimentum ex quis luctus tincidunt.</li>
+        <li>Mauris bibendum neque a felis tincidunt, in accumsan tortor accumsan.</li>
+        <li>Nulla bibendum orci at erat laoreet fringilla.</li>
+        <li>Praesent eu augue nec sem condimentum viverra.</li>
+        <li>Etiam facilisis felis porta fringilla congue.</li>
+        <li>Nam et enim tristique, varius quam ac, tempus nunc.</li>
+        <li>Praesent condimentum ex quis luctus tincidunt.</li>
+        <li>Aliquam in augue sit amet leo pharetra porta ut quis tellus.</li>
+    </ul>
+
+</div>
+
+<script>
+    $(document).ready( function () {
+
+        var $tours = $("#tours");
+
+        $tours.find(".america").find("h2").first().text("Toronto,Ontario");
+
+        $tours.find("span.details").text("$999 for 7 nights");
+
+        $tours.find(".europe").find("span.details").text("$799 for 7 nights");
+
+
+        // 1. Change text of <h2> from "New York, New York" to "Toronto, Ontario".
+
+
+        // 2. Change details of all the vacations to "$999 for 7 nights"
+
+        // 3. Change details of all the Europe vacations (class "europe") to "$799 for 7 nights"
+
+        // 4. Change details of vacation in Spain to "$399 for 5 nights"
+        $tours.find("h2:contains('Spain')").next().text("$399 for 5 nights");
+        $tours.find("h2").filter('Spain').next().text("$399 for 5 nights");
+
+        // 5.
+        //$("#tours").find(".europe").children().last().text("");
+
+        // 6. change background of every other <li> element to lightgray
+        var $legal =$("#legal");
+
+        var $li=$legal.find("li");
+
+        //$li.filter(":even").css("background-color","lightgray");
+        $li.filter(":even").addClass("lightgray");
+
+        // 7. change background of 5-th elements to yellow. Then of every 5th element!
+        // We should avoid using: .css( "background-color", "yellow" );
+
+        $li.filter(function (index){
+            return (index %5) ===4;
+        }).addClass("yellow");
+        // 8. Keep only 10 <li> elements and hide or remove the rest!
+        // --> Investigate in console
+        $li.filter(function (index){
+            return index > 9;
+        }).hide(5000,function () {
+            $(this).remove();
+        });
+
+        // 9. Periodically highlight all <h2> elements in "Guided Tours"
+        window.setInterval(function(){
+            $tours.find("h2").toggleClass("highlight")
+        },2000)
+
+    });
+</script>
+</body>
+</html>

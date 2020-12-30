@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *; img-src 'self' data: content:;">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="msapplication-tap-highlight" content="no">
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+    <link rel="stylesheet" type="text/css" href="css/index.css">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <script src="js/jquery/jquery-1.12.4.min.js" type="text/javascript"></script>
+    <link href="js/jquery-mobile/jquery.mobile-1.4.5.min.css" rel="stylesheet" type="text/css"/>
+    <script src="js/jquery-mobile/jquery.mobile-1.4.5.min.js" type="text/javascript"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.9.4/firebase.js"></script>
+
+
+    <title>Hello World</title>
+    <style>
+        .row {
+            padding-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div data-role="page">
+    <div data-role="content">
+        <form id="myForm" action="#" method="post">
+            <div class="ui-field-contain">
+                <label for="name">Name</label>
+                <input data-corners="false" type="text" id="name" name="name" autofocus placeholder="Enter your name">
+            </div>
+
+            <div class="ui-field-contain">
+                <label for="unit">Unit Number</label>
+                <input data-corners="false" type="text" id="unit" name="unit" placeholder="Enter your Unit Number">
+            </div>
+            <div class="ui-field-contain">
+                <label for="email">Email</label>
+                <input data-corners="false" type="text" id="email" name="email" placeholder="Enter your e-mail">
+            </div>
+            <div class="ui-field-contain">
+                <label for="desc">Description</label>
+                <input data-corners="false" type="text" id="desc" name="desc" placeholder="Description">
+            </div>
+
+
+            <div class="ui-field-contain">
+                <label>Photo:</label>
+                <button id="takePhoto" class="ui-btn ui-btn-inline ui-mini ui-icon-camera ui-btn-icon-left">Click to Upload</button>
+                <button id="deletePhoto" class="ui-btn ui-btn-inline ui-mini ui-icon-delete ui-btn-icon-left">Delete Photo</button>
+            </div>
+
+
+            <div class="row max-auto text-center">
+                <div class="offset-sm-1 col-sm-10">
+                    <img id="img" class="img-thumbnail mx-auto rounded" alt="" src=""/>
+                </div>
+            </div>
+
+            <div data-role="popup" id="pop" data-position-to="window" data-transition="turn"></div>
+            <button id="saveInfo" type="button" class="ui-btn ui-icon-star ui-btn-icon-left">Submit</button>
+
+
+        </form>
+    </div>
+</div>
+
+
+<script>
+    $(document).on("pagecreate", function () {
+        var $name=$("#name");
+        var $email=$("#email");
+        var $unit=$("#unit");
+        var $desc = $("#desc");
+        var db, openRequest;
+
+        var click_event = $.support.touch ? "tap" : "click";
+
+        var dbSupported=("indexedDB" in window) ? true : false;
+
+        function showPopup(msg) {
+            $("#pop").html("<p>" + msg + "</p>").popup("open");
+            setTimeout(function(){  $("#pop").popup("close"); }, 1000);
+        }
+        if (dbSupported) {
+            var openRequest=window.indexedDB.open("myDB", 1);
+
+            openRequest.onupgradeneeded = function(event) {
+                console.log("DB upgrading");
+                //db = event.target.result;
+                db=openRequest.result;
+                if (!db.objectStoreNames.contains("complaint")) {
+
+                    // Notice: we use here email as DB key since email will be unique for each student
+                    db.createObjectStore("complaint", {keyPath:"email"});
+                }
+
+            };
+            openRequest.onsuccess=function(event) {
+                console.log("DB success");
+                //db = event.target.result;
+                db=openRequest.result;
+            };
+
+            openRequest.onerror=function(event) {
+                console.log("DB error");
+                //db = event.target.result;
+                console.dir(event);
+            };
+
+        }
+
+
+        $("#saveInfo").on(click_event, function(){
+            console.log("save btn clicked");
+            var name=$name.val();
+            var email=$email.val().toLowerCase();
+            var unit=$unit.val();
+            var desc = $desc.val();
+            var errMsg='';
+            if (name.length<1) {errMsg +=' Name cannot be empty<br/>';}
+            if (email.length<1) {errMsg +='Email cannot be empty<br/>';}
+            if(unit.length<1){errMsg+='Unit number cannot be empty<br/>';}
+            if(desc.length<1){errMsg+='Description cannot be empty<br/>'}
+            if ( errMsg.length>1 ) {
+                showPopup(errMsg);
+                return true;
+            }
+
+            // Notice: we use here email as DB key!
+            var complaint={name:name, email:email, unit:unit,desc:desc};
+
+            // Initiate a transaction
+            var transaction = db.transaction(["complaint"],"readwrite");
+
+            // No need to use in production .oncomplete and .onerror event handlers below.
+            // We use it here for demonstration / debugging purposes only! -> must remove in production!
+            transaction.oncomplete = function(event) {
+                console.log("Transaction Complete");
+            };
+            transaction.onerror=function(event) {
+                console.log("Transaction Failed");
+
+            };
+
+            // Add/Update student info. Notice the difference: .add() vs .put()  !!!
+            var storeRequest=transaction.objectStore("complaint").put(complaint);
+
+            storeRequest.onsuccess =function() {
+                showPopup("Student Info Saved");
+            };
+
+            storeRequest.onerror=function() {
+                showPopup("Database Error: cannot save Student Info");
+            };
+
+        });
+
+
+        $("#getBtn").on(click_event, function(){
+            var email=$email.val().toLowerCase();
+            if (email.length<1) {
+                showPopup("E-mail cannot be empty");
+                return true;
+            }
+
+
+            var storeRequest=db.transaction(["complaint"],"readwrite").objectStore("complaint").get(email);
+
+            storeRequest.onsuccess=function() {
+
+                // storeRequest.result will have the result of the query above! It'll have the JS student Object we put before!
+                if ((storeRequest.result) && ("name" in storeRequest.result)) {
+                    $name.val(storeRequest.result.name);
+
+                }
+                else {
+                    showPopup("E-mail doesn't exist in the database");
+                };
+
+            };
+
+        });
+
+
+
+    });
+
+</script>
+</body>
+</html>

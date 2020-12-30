@@ -1,0 +1,155 @@
+<script>
+    $(document).ready(function(){
+        $("#alert").hide();
+        var $invite = $("#invite");
+        var $name = $("#name");
+        var $company = $("#company");
+        var $reg = $("#btnReg");
+        var $check = $("#btnCheck");
+        var $del = $("#btnDel");
+        var $msg = $("#msg");
+        var $radOp = $("#radOp");
+        var $option = $("#options");
+        var radOp = $("input[name=gridRadios]:checked").val();;
+        var db, openRequest;
+
+        var dbSupported=("indexedDB" in window) ? true : false;
+        function errorCheck(ID, error){
+            if (ID.length <1){
+                error+="Invitation ID cannot be empty</br>";
+                showPopUp(error);
+                return true;
+            }
+        }
+        function showPopUp(msg){
+            $msg.html(msg).parent().show(1000);
+            setTimeout(  function() { $msg.parent().hide(1000);}, 2500 );
+
+
+
+        }
+
+        if (dbSupported) {
+            var openRequest=window.indexedDB.open("registrationDB", 5);
+
+            openRequest.onupgradeneeded = function(event) {
+
+                db=openRequest.result;
+                if (!db.objectStoreNames.contains("registration")) {
+                    db.createObjectStore("registration", {keyPath:"id"});
+                }
+
+            };
+            openRequest.onsuccess=function(event) {
+                db=openRequest.result;
+
+            };
+
+
+        }
+        $radOp.on("click", function(){
+
+            radOp = $("input[name=gridRadios]:checked").val();
+
+
+        });
+
+
+
+        $reg.on("click", function(){
+            var ID = $invite.val();
+            var name = $name.val();
+            var company = $company.val();
+            var error = '';
+            if (ID.length <1){
+                error+="Invitation ID cannot be empty</br>";
+            }
+            if(name.length < 1){
+                error+="Your name cannot be empty</br>";
+            }
+
+            if(company.length < 1){
+                error+="Company name cannot be empty</br>";
+            }
+
+            if (error.length > 1){
+                showPopUp(error);
+                return true;
+            }
+            var registration={id:ID, name:name,
+                company:company, type:radOp};
+            var transaction = db.transaction(["registration"],'readwrite');
+            var storeRequest=transaction.
+            objectStore("registration").add(registration);
+
+            storeRequest.onsuccess =function() {
+                showPopUp("Registration info saved");
+            };
+
+            storeRequest.onerror=function() {
+                showPopUp("Database Error: cannot save registration Info");
+            };
+
+
+
+
+        });
+        $check.on("click", function(){
+            var ID = $invite.val();
+            var error = "";
+            errorCheck(ID, error);
+
+            if (ID.length > 1){
+                var storeRequest = db.transaction(["registration"],
+                    "readwrite").objectStore("registration").get(ID);
+
+                storeRequest.onsuccess=function() {
+                    if ((storeRequest.result) && ("name" in storeRequest.result)) {
+                        $name.val(storeRequest.result.name);
+                        $company.val(storeRequest.result.company);
+                        $("input[name='gridRadios']").each(function(){
+                            if($(this).val()===storeRequest.result.type){
+                                $(this).prop("checked", true);
+                            }
+                        });
+                        showPopUp("Invitation was succesfully retrieved!");
+
+                    }
+                    else {
+                        showPopUp("Invitation ID not found!");
+                    };
+
+                };
+            }
+
+        });
+
+        $del.on("click", function(){
+            var ID = $invite.val();
+            var error = "";
+            errorCheck(ID, error);
+            if (ID.length > 1){
+                var storeRequest = db.
+                transaction(["registration"], "readwrite").
+                objectStore("registration").get(ID);
+                storeRequest.onsuccess=function(){
+                    if((storeRequest.result) &&
+                        ("name" in storeRequest.result)){
+                        db.transaction(["registration"], "readwrite").
+                        objectStore("registration").delete(ID);
+                        showPopUp("Invitation was succesfully deleted!");
+                    }
+                };
+
+
+
+            }
+        });
+    });
+
+
+
+
+
+
+</script>

@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>PROG20261: Tutorial</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-PDle/QlgIONtM1aqA2Qemk5gPOE7wFq8+Em+G/hmo5Iq0CCmYZLv3fVRDJ4MMwEA" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+
+    <style>
+        #container {
+            position:absolute;
+            top:50px;
+            left:50px;
+            width:500px;
+            height:500px;
+            border: 2px solid black;
+            border-radius: 55px;
+        }
+
+        #ball {
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            width: 100px;
+            height: 100px;
+            background-color: green;
+            border-radius:100px;
+            border:1px solid black;
+        }
+        #ball2 {
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            width: 100px;
+            height: 100px;
+            background-color: green;
+            border-radius:100px;
+            border:1px solid black;
+        }
+        .highlight{
+            background:red;
+        }
+    </style>
+
+
+</head>
+<body>
+<div id="container">
+    <button id="addBox" type="button" class="btn btn-primary">Add Box</button>
+    <button id="removeBox" type="button" class="btn">Remove Box</button>
+    <button id="removeAll" type="button" class="btn btn-danger">Remove All</button>
+    <div id='ball'></div>
+
+</div>
+
+<!-- 	This file is for demonstration purposes only!
+    Check the "Hints" section first.
+    There is no need for you to create "ball" object in Assignment N1.
+    The code below is based on pure JS.
+    You might want to "simplify" the code by using jQuery libary.
+-->
+
+<script>
+    window.addEventListener("load", function () {
+        /* We need these variables:  */
+        //var count=ball.length;
+        var ball = {x:0,y:0,xspeed:5,yspeed:2,
+            ID:document.getElementById("ball")
+
+        };
+        $div=$("<div id='ball'></div>");
+        var balls=[];
+        var $box = $div.clone().append("#container");
+        document.body.append($box);
+        balls.push($box);
+
+
+        $box.x=0;
+        $box.y=0;
+        $box.xspeed=4;
+        $box.yspeed=7;
+        $box.ID=document.getElementById("ball");
+
+
+        balls.push($box);
+
+
+
+
+
+        $("#addBox").click(function () {
+            $box.x=0;
+            $box.y=0;
+            $box.xspeed=10;
+            $box.yspeed=6;
+            $box.ID=document.getElementById("ball2");
+
+           document.body.append($box);
+
+            console.log(balls.length);
+            return balls.push($box);
+
+        });
+       // var $div=$("<div></div>");
+        //var $box=$div.clone();
+      // document.getElementById("addBox").onclick =function () {alert("adkfd");};
+
+        document.getElementById("ball").onclick=function(){
+            if(this.style.backgroundColor=="green"){
+                this.style.backgroundColor="yellow";
+            }else
+                this.style.backgroundColor="green";
+        };
+        $("#removeBox").click(function () {
+            balls.pop();
+        })
+        $(document).ready(function () {
+
+            $("ball2").click( function(e) {
+                var $element = $(this);
+
+                $element.addClass('highlight');
+                e.stopImmediatePropagation();
+                setTimeout( function() {
+                    $element.removeClass('highlight');
+                }, 1000 );
+
+            });
+
+
+        });
+
+        console.log(ball.length);
+
+        function updateAnimation() {
+            for (var i = 0; i < balls.length; i++) {
+                balls[i].y = balls[i].y + balls[i].yspeed;
+                balls[i].x = balls[i].x + balls[i].xspeed;
+                if (balls[i].x <= -1 || balls[i].x >= 399) {
+                    balls[i].xspeed = balls[i].xspeed * -1;
+                }
+
+                if (balls[i].y <= -1 || balls[i].y >= 399) {
+                    balls[i].yspeed = balls[i].yspeed * -1;
+                }
+                console.log(balls[i]);
+                balls[i].ID.style.top = balls[i].y + "px";
+                balls[i].ID.style.left = balls[i].x + "px";
+
+            }
+        }
+        setInterval(updateAnimation, 100);
+    });
+</script>
+</body>
+</html>

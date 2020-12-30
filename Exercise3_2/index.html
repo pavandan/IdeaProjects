@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Exercise3_2</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <style>
+        .highlight{
+            background:yellow;
+        }
+    </style>
+
+</head>
+<body>
+
+<!--
+    Using jQuery only create the following:
+    https://youtu.be/GbKfiNScxqI
+ -->
+
+
+<script>
+    var MONTHS=new Array('January','February','March','April','May','June','July','August','September','October','November','December');
+
+    $(document).ready(function () {
+
+        var $UL=$("<ul></ul>");
+        var UL ="";
+
+        for (var i=0;i<MONTHS.length;i++){
+            UL += "<li>"+MONTHS[i].substr(0,3)+"</li>";
+        }
+
+        $UL.append(UL);
+
+
+        $("body").append($UL);
+        /*
+        $UL.find("li").on("mouseover mouseleave",function () {
+            $(this).toggleClass("highlight");
+        })
+*/
+        $UL.on("mouseover mouseleave","li",function () {
+            $(this).toggleClass("highlight");
+        })
+
+    });
+
+</script>
+
+</body>
+</html>

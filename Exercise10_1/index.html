@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Exercise 10.1</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+
+</head>
+<body>
+
+<div class="container">
+    <div class="row">
+        <header class="col-md-12">
+            <h2>Say Hello Application</h2>
+        </header>
+        <div class="col-md-12">
+            <div class="form-group">
+                <label for="f_name">First Name</label>
+                <input id="f_name" type="text" class="form-control" placeholder="First Name">
+            </div>
+            <div class="form-group">
+                <label for="l_name">Last Name</label>
+                <input id="l_name" type="text" class="form-control" placeholder="Last Name">
+            </div>
+            <div id="msg" class="alert alert-warning" role="alert" hidden></div>
+
+            <button type="button" id="btnSubmit" class="btn btn-success">Say Hello</button>
+
+        </div>
+    </div>
+
+</div>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded",initApp);
+    function initApp() {
+
+
+
+        var btnSubmit = document.getElementById("btnSubmit");
+
+        var btnSubmitText=btnSubmit.textContent;
+
+        var msg=document.getElementById("msg");
+
+        var xhr=new XMLHttpRequest();
+
+        xhr.onloadstart=function () {
+            btnSubmit.textContent="Please wait!";
+            msg.getAttribute("hidden","");
+        };
+
+        xhr.onload=function () {
+            msg.textContent=this.responseText;
+            console.log(this.responseText);
+
+        };
+        xhr.onerror=function () {
+            msg.textContent="Error: cannot connect to the server!";
+        };
+        xhr.ontimeout=function () {
+            msg.textContent="Error: request timed out!";
+        };
+        xhr.onloadend=function () {
+            btnSubmit.textContent=btnSubmitText;
+            msg.removeAttribute("hidden","");
+        };
+
+
+        var url = "http://babanski.com/files/ajax/hello.php";
+
+
+        btnSubmit.onclick=function (event) {
+
+
+            event.preventDefault();
+            f_name=document.getElementById("f_name");
+            l_name=document.getElementById("l_name");
+
+
+            xhr.open("POST",url,true);
+            var formData=new FormData();
+            formData.append("f_name",document.getElementById("f_name").value);
+            formData.append("l_name",document.getElementById("l_name").value);
+            xhr.send(formData);
+
+
+        }
+
+    }
+
+
+</script>
+</body>
+</html>

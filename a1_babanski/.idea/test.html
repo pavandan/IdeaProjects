@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Assignment 1</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-PDle/QlgIONtM1aqA2Qemk5gPOE7wFq8+Em+G/hmo5Iq0CCmYZLv3fVRDJ4MMwEA" crossorigin="anonymous">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <style>
+        #my_canvas{
+            height: 100vh;
+            width: 100vw;
+        }
+    </style>
+</head>
+<body>
+<button id="addBox" type="button" class="btn btn-primary">Add Box</button>
+<button id="removeBox" type="button" class="btn">Remove Box</button>
+<button id="removeAll" type="button" class="btn btn-danger">Remove All</button>
+<canvas id="my_canvas"height="300px" width="600px" ></canvas>
+
+<script>
+    $(document).ready(function () {
+        var canvas = document.getElementById("my_canvas");
+        var c = canvas.getContext("2d");
+        var container = {
+            x: 0,
+            y: 0,
+            width: 600,
+            height: 300
+        };
+        var count=1;
+        var circles = [{
+            x: 300,
+            y: 150,
+            r: 20,
+            vx: 5,
+            vy: 2,
+            color: 208
+        }];
+        $("#addBox").click(function () {
+            var circle = {
+                x: 300 ,
+                y: 150 ,
+                r: get_random(1,25),
+                vx: get_random(-10,10),
+                vy: get_random(-10,10),
+                color: 208
+            }
+            circles.push(circle);
+            return count++;
+        })
+        $("#removeBox").click(function () {
+            circles.pop();
+            return count--;
+        })
+        $("#removeAll").click(function () {
+            circles=[];
+            return count=1;
+        })
+        function get_random(min,max){
+            min = Math.ceil(min);
+            max = Math.floor(max);
+            return Math.floor(Math.random() * (max - min +1)) + min;
+        }
+        function animate() {
+            c.fillStyle = "#ffffff";
+            c.fillRect(container.x, container.y, container.width, container.height);
+            //loop throughj the circles array
+            for (var i = 0; i < circles.length; i++) {
+                //draw the circles
+                c.fillStyle = 'blue';
+                c.beginPath();
+                c.arc(circles[i].x, circles[i].y, circles[i].r, 0, Math.PI * 2, true);
+                c.fill();
+                if (circles[i].x - circles[i].r + circles[i].vx < container.x || circles[i].x + circles[i].r + circles[i].vx > container.x + container.width) {
+                    circles[i].vx = -circles[i].vx;
+                }
+                if (circles[i].y + circles[i].r + circles[i].vy > container.y + container.height || circles[i].y - circles[i].r + circles[i].vy < container.y) {
+                    circles[i].vy = -circles[i].vy;
+                }
+                circles[i].x += circles[i].vx
+                circles[i].y += circles[i].vy
+            }
+        }
+        setInterval(animate,10);
+    })
+</script>
+</body>
+</html>

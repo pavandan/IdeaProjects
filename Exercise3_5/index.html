@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Exercise3_5</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+</head>
+<body>
+<p id="test">Test</p>
+
+<script>
+    $(document).ready(function () {
+
+        var $test = $("#test");
+
+        function handler1(event) {
+            alert( "handler1" );
+
+            // Uncomment: Click 2 never gets fired!
+             event.stopImmediatePropagation();
+
+            $test.off( "click", handler2 );
+
+        }
+
+        function handler2() {
+            alert( "handler2" );
+        }
+
+        $test.on( "click", handler1 );
+        $test.on( "click", handler2 );
+
+    });
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Exercise8_3</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+</head>
+
+<body>
+<h1>Hello, World!</h1>
+<p id="myID">My coordinates: unknown!</p>
+
+<script>
+    var getPosition = function (options) {
+        return new Promise(function (resolve, reject) {
+            navigator.geolocation.getCurrentPosition(resolve, reject, options);
+        });
+    };
+
+    getPosition().then((position) => {
+        console.dir(position);
+    document.getElementById("myID").textContent = "My coordinates: "
+        + "(" + position.coords.latitude + ", "
+        + position.coords.longitude + ")";
+    }).catch((err) => {
+        console.error(err.message);
+    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,119 @@
+
+<html>
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
+
+    <title>Bootstrap 4 layouts</title>
+</head>
+<body>
+<header if="page-hero" class="site-header">
+    <nav class ="site-nav family-sans text-uppercase navbar navbar-expand-md bg-secondary navbar-dark">
+        <div class="container-fluid">
+
+            <a class="navbar-brand" href="#page-hero">
+                <i class="fas fa-cube"></i>Layout Components</a>
+            <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#myTogglerNav" aria-controls="#myTogglerNav" aria-label="Toggle Navigation">
+                <span class="navbar-toggler-icon"></span></button>
+
+
+            <section class="collapse navbar-collapse" id="myTogglerNav">
+                <div class="navbar-nav ml-auto">
+                    <a class="nav-item nav-link" href="#page-hero">home</a>
+                    <a class="nav-item nav-link" href="#page-multicolumn">columns</a>
+                    <a class="nav-item nav-link" href="#page-media">media</a>
+                    <a class="nav-item nav-link" href="#page-photogrid">grid</a>
+                    <a class="nav-item nav-link" href="#page-carousel">carousel</a>
+                    <a class="nav-item nav-link" href="#page-nested">nested</a>
+                    <a class="nav-item nav-link" href="#page-icons">icons</a>
+                    <a class="nav-item nav-link" href="#page-floater">floater</a>
+                    <a class="nav-item nav-link" href="#page-cards">cards</a>
+                </div>
+            </section>
+        </div>
+
+    </nav>
+    <section class="layout-hero d-flex text-center">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-11 col-sm-10 col-md-8">
+                    <h3 class="page-section-title">Bootstrap 4 Layouts</h3>
+                    <p class="page-section-text">This layout uses multiple column rules so that how many columns each </p>
+                </div>
+            </div>
+             </div>
+    </section>
+</header>
+
+<article id="page-multicolumn"class="page-section text-center py-5">
+    <header class="page-section-header container">
+        <div class="row justify-content-center">
+            <div class="col-11 col-sm-10 col-md-8">
+                <h2 class="page-section-title">Multicolumn</h2>
+                <p class="page-section-text">This layout uses multiple colunmn rules so that how many columns each rules group takes depends on the width of the browser</p>
+            </div>
+        </div>
+    </header>
+
+    <section class="layout-multicolumn container">
+        <div class="row justify-content-center family-sans text-uppercase">
+            <section class="col-10 col-md-6 col-lg-4 col-xl-3">
+                <img src="images/img1.jpg" alt="Monster Image 01">
+                <h5>Jerry</h5>
+            </section>
+
+            <section class="col-10 col-md-6 col-lg-4 col-xl-3">
+                <img src="images/img2.png" alt="Monster Image 02">
+                <h5>Cartoon 2</h5>
+            </section>
+
+            <section class="col-10 col-md-6 col-lg-4 col-xl-3">
+                <img src="images/img3.jpg" alt="Monster Image 03">
+                <h5>Cartoon 3</h5>
+            </section>
+        </div>
+
+    </section>
+</article>
+<article id="page-media">
+    <header>
+        <h2>Media</h2>
+        <p>A quick way to create a two-column pattern that shows an image next to a center elements ysing flexbox classed. A couple of thin
+        to watch out single columns and can sometimes to too wide, so these particular media</p>
+    </header>
+    <section>
+        <section>
+            <img
+        </section>
+    </section>
+</article>
+<footer class="site-footer bg-secondary d-flex justify-content-center">
+    <section class="layout-social py-5">
+
+        <a class="text-light px-2" href="https://www.google.com/">
+            <i class="layout-icon fa fa-google"></i>
+        </a>
+        <a class="text-light px-2" href="https://www.linkedin.com/">
+            <i class="layout-icon fa fa-linkedin"></i>
+        </a>
+        <a class="text-light px-2" href="https://www.amazon.com/">
+            <i class="layout-icon fa fa-amazon"></i>
+        </a>
+        <a class="text-light px-2" href="https://www.twitter.com/">
+            <i class="layout-icon fa fa-twitter"></i>
+        </a>
+        <a class="text-light px-2" href="https://www.facebook.com/">
+            <i class="layout-icon fab fa-facebook"></i>
+        </a>
+
+    </section>
+
+</footer>
+
+</body>
+</html>

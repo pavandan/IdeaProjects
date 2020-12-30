@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="format-detection" content="telephone=no">
+    <meta name="msapplication-tap-highlight" content="no">
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+    <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.min.js"></script>
+
+    <title>Exercise 8_2</title>
+</head>
+<body>
+<div data-role="page" id="storage">
+    <div data-role="content">
+        <div id="info" class="ui-field-contain">
+        </div>
+        <button id="getBtn" class="ui-btn ui-icon-action ui-btn-icon-left">Get Time</button>
+    </div>
+</div>
+
+<script>
+    $(document).on("pagecreate",  initApp);
+    function initApp() {
+        var url = "http://babanski.com/files/ajax/time.php";
+
+        // Let's cache frequent selectors!
+        var $info = $("#info");
+        var $getBtn = $("#getBtn");
+        var getBtnText = $getBtn.text(); // Default text
+
+        var xhr = new XMLHttpRequest();
+
+        // Part1: Try addEventListener() approach
+        /*
+        xhr.addEventListener("load", transferComplete, false);
+        xhr.addEventListener("abort", transferAbort, false);
+
+        function transferComplete(evt) {
+            console.log("Transfer complete!");
+
+            $info.text(xhr.responseText);
+            $getBtn.text(getBtnText);
+        };
+
+        function transferAbort(evt) {
+            console.log("Transfer was aborted");
+            $getBtn.text(getBtnText);
+        };
+        */
+
+        // Part 2: Try .onXXXX event handlers (Universal approach).
+        // Can work together with Part 1 and/or Part 3
+        xhr.ontimeout=function(evt) {
+            $info.text("Cannot connect to server: request has timed out!");
+            $getBtn.text(getBtnText);
+        };
+
+        //
+        xhr.onloadstart=function(evt) {
+            $getBtn.text("Please Wait!");
+        };
+
+        // You can also keep transferAbort() function from above!:
+        // xhr.onabort=transferAbort;
+
+        //Part 3:
+        //https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/readyState
+
+        xhr.onreadystatechange = function (evt) {
+
+            // Use "this" keyword to reference "xhr" object everywhere, i.e.
+            // instead of using xhr.readyState you must use this.readyState
+            if (this.readyState == XMLHttpRequest.OPENED) {
+
+                $getBtn.text("Please Wait!");
+                $info.text(""); //reset Text
+
+            }
+            else if (this.readyState == XMLHttpRequest.DONE) {
+                if (this.status == 200) {
+                    $info.text(this.responseText);
+                }
+                else {
+                    $info.text("Error: cannot get data!");
+                }
+
+                $getBtn.text(getBtnText);
+            }
+        };
+
+        $getBtn.click(function() {
+            //xhr.abort();
+            xhr.open("GET", url, true);
+            xhr.send();
+            xhr.timeout=6000;
+        });
+
+    };
+</script>
+</body>
+</html>

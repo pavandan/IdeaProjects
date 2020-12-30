@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Exercise3_6</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+</head>
+<body>
+<div id = "container">
+
+    Select Country:
+    <select id="country">
+        <option value="US">US</option>
+        <option value="CA">Canada</option>
+    </select>
+
+</div>
+<div id="message1">Welcome to Canada</div>
+<div id="message2">Welcome to USA</div>
+
+
+<script>
+    $(document).ready(function () {
+
+        // Set visibility at startup
+        $('#message1').toggle(    $('#country option:selected').val() == 'CA'    );
+        $('#message2').toggle(    $('#country option:selected').val() == 'US'    );
+
+        // Update visibility when country selector changes via mouse
+        $('#country').change( function() {
+            $('#message1').toggle(   $('#country option:selected').val() == 'CA'   );
+            $('#message2').toggle(   $('#country option:selected').val() == 'US'   );
+        });
+
+        // Also update when country selector changes via keyboard
+        $('#country').keyup( function() {
+            $('#message1').toggle(    $('#country option:selected').val() == 'CA'  );
+            $('#message2').toggle(    $('#country option:selected').val() == 'US'  );
+        });
+    });
+</script>
+
+
+</body>
+</html>

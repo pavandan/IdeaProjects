@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Exercise3_4</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <style type="text/css">
+        div{ margin:10px;padding:12px;
+            border:2px solid #666;
+            width:160px;
+        }
+        section{
+            margin:10px;padding:12px;
+            border:2px solid #666;
+            width:160px;
+        }
+        article{
+            margin:10px;padding:12px;
+            border:2px solid #666;
+            width:160px;
+        }
+
+        div.red {
+            background-color:red;
+        }
+
+        div.blue {
+            background-color:blue;
+        }
+
+        div.green {
+            background-color:green!important;
+        }
+    </style>
+</head>
+<body>
+
+
+<p>Click on any box to see the effect:</p>
+<div id="div1" class="blue">
+    OUTER BOX
+    <div id="div2" class="red">
+        INNER BOX
+    </div>
+</div>
+
+
+<script>
+    $(document).ready(function () {
+
+
+
+        $("#div1").click (  function( e ) {
+            $(this).toggleClass("green");
+        });
+
+
+        $("#div2").click (  function( e ) {
+            //alert ("Inner Box");
+            //e.stopPropagation();
+            //e.stopImmediatePropagation();
+        });
+
+
+        $("#div2").click( function(e) {
+            $(this).toggleClass("green");
+            e.stopImmediatePropagation();
+        });
+
+    });
+</script>
+
+
+</body>
+</html>

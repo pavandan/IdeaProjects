@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Assignment 1</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-PDle/QlgIONtM1aqA2Qemk5gPOE7wFq8+Em+G/hmo5Iq0CCmYZLv3fVRDJ4MMwEA" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+
+    <style>
+        #container {
+            position:absolute;
+            top:0px;
+            left:0px;
+
+            width:100vw;
+            height:100vh;
+
+
+            border: 2px solid black;
+            border-radius: 0px;
+        }
+        #rectangle{
+            display:flex;
+            position: absolute;
+            width:100px;
+            height:200px;
+            background-color: blue;
+            text-align: center;
+            color: white;
+            size
+
+
+        }
+        .two{
+            display:flex;
+            position: absolute;
+            width:100px;
+            height:200px;
+            background-color: blue;
+
+        }
+        .highlight{
+            background:red;
+        }
+
+    </style>
+</head>
+<body>
+<div id="container">
+<button id="addBox" type="button" class="btn btn-primary">Add Box</button>
+<button id="removeBox" type="button" class="btn">Remove Box</button>
+<button id="removeAll" type="button" class="btn btn-danger">Remove All</button>
+
+    <div id="rectangle">1</div>
+</div>
+<script>
+    $(document).ready(function () {
+         var $div=$("<div></div>");
+         var $box=$div.clone();
+        var boxes=[];
+        var count=2;
+
+        var rectangle={x:0,y:0,xspeed:5, yspeed:2,
+            ID:document.getElementById("rectangle")};
+        function updateAnimation() {
+            rectangle.y=rectangle.y+ rectangle.yspeed;
+            rectangle.x=rectangle.x+ rectangle.xspeed;
+
+            if(rectangle.x<=-1 || rectangle.x>=window.innerWidth-100){
+                rectangle.xspeed=rectangle.xspeed*-1;
+            }
+
+            if(rectangle.y<=-1 ||rectangle.y>=window.innerHeight-210){
+                rectangle.yspeed=rectangle.yspeed*-1;
+            }
+            rectangle.ID.style.top=rectangle.y+"px";
+            rectangle.ID.style.left=rectangle.x+"px";
+
+        }
+        function get_random(min,max){
+            min = Math.ceil(min);
+            max = Math.floor(max);
+            return Math.floor(Math.random() * (max - min +1)) + min;
+        }
+          $("#addBox").click(function () {
+                $box.textContent=count;
+                boxes.push($box);
+
+            return count++;
+
+
+        });
+
+             $("rectangle").click(function (e) {
+            //$(this).toggleAttribute("highlight");
+            $( this ).toggleClass("highlight");
+            //$(this).classList.toggle("highlight");
+            e.stopImmediatePropagation();
+
+        });
+        setInterval(updateAnimation,100);
+    })
+</script>
+</body>
+</html>

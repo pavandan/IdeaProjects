@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-PDle/QlgIONtM1aqA2Qemk5gPOE7wFq8+Em+G/hmo5Iq0CCmYZLv3fVRDJ4MMwEA" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.0/js/bootstrap.min.js" integrity="sha384-7aThvCh9TypR7fIc2HV4O/nFMVCBwyIUKL8XCtKE+8xgCgl/PQGuFsvShjr74PBp" crossorigin="anonymous"></script>
+    <style>
+        h4{
+            font-size:2.5vw;
+        }
+        .container-fluid{
+            padding-top:60px;
+        }
+        .grid1{
+            display:grid;
+            grid-template-areas: "grid1 grid1 grid1";
+        }
+        .grid2{
+            display:grid;
+            grid-template-areas: "grid2 grid2 grid2";
+        }
+        .grid3{
+            display:grid;
+            grid-template-areas: "grid3 grid3 grid3";
+        }
+        div .grid1 div{
+            padding-left:50px;
+        }
+        div .grid2 div{
+            padding-left:50px;
+        }
+        div .grid3 div{
+            padding-left:50px;
+        }
+    </style>
+    <title>Title</title>
+</head>
+<body>
+<nav class="navbar fixed-top navbar-expand-md navbar-light bg-light">
+    <a class="navbar-brand" href="#"></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto ">
+            <li class="nav-item active">
+                <a class="nav-link" href="#">
+                    <span class="fas fa-home"></span>Home <span class="sr-only ">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">
+                    <span class="fas fa-dollar-sign"></span>Pricing</a>
+            </li>
+            <li class="nav-item ">
+                <a class="nav-link" href="#">
+                    <span class="fas fa-bell"></span>Notifications</a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Account
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="#">Profile</a>
+                    <a class="dropdown-item" href="#">Settings</a>
+                    <p></p>
+                    <a class="dropdown-item" href="#">Logout</a>
+                </div>
+            </li>
+        </ul>
+        <form class="form-inline d-none d-md-block my-md-0 mr-md-4">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-success my-2 my-sm-0" type="submit">Search</button>
+        </form>
+    </div>
+</nav>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-10 offset-md-1">
+            <table class="table table-striped table-bordered">
+                <thead>
+                <tr class="  dr-none dr-lg-block">
+                    <th><h4 class="text-center">Free Plan</h4></th>
+                    <th><h4 class="text-center">Standard Plan</h4> </th>
+                    <th><h4 class="text-center">Premium Plan</h4> </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td><h4 class="text-center"> $0</h4></td>
+                    <td><h4 class="text-center"> $19.99</h4></td>
+                    <td><h4 class="text-center"> $29.99</h4></td>
+                </tr>
+                <tr class="tabel text-center d-none d-lg-table-row  ">
+                    <td>
+                        <div class="col-md-2 text-center">
+                            <div class="grid1">
+                                <div class="grid1">lorem ipsum</div>
+                                <div class="grid1">lorem ipsum</div>
+                                <div class="grid1">lorem ipsum</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td >
+                        <div class="col-md-2 text-center">
+                            <div class="grid2">
+                                <div class="grid2">lorem ipsum</div>
+                                <div class="grid2">lorem ipsum</div>
+                                <div class="grid2">lorem ipsum</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td >
+                        <div class="col-md-2 text-center">
+                            <div class="grid3">
+                                <div class="grid3">lorem ipsum</div>
+                                <div class="grid3">lorem ipsum</div>
+                                <div class="grid3">lorem ipsum</div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><a href="#" class="btn btn-success btn-block">Purchase</a></td>
+                    <td><a href="#" class="btn btn-info btn-block">Purchase</a></td>
+                    <td><a href="#" class="btn btn-danger btn-block">Purchase</a></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<nav class="navbar fixed-bottom navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">VIVEK GUPTA</a>
+</nav>
+</body>
+</html>

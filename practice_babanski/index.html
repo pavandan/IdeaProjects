@@ -1,0 +1,178 @@
+<html>
+<head>
+    <title>PROG20261: Tutorial</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <style>
+        html, body {
+            width:100%;
+            height:100%;
+        }
+        #boxes-container{
+            width: 100%;
+            height: 100%;
+        }
+
+        #ball {
+            position: relative;
+            width: 200px;
+            height:200px;
+            align-self:center;
+            justify-self: center;
+            background-color: blue;
+            color: white;
+            border:1px solid black;
+        }
+
+        #box {
+            display: flex;
+            position: absolute;
+            color: white;
+            border:1px solid black;
+        }
+        #options{
+            justify-self: flex-start;
+            align-items: flex-start;
+
+        }
+        button{
+            color: white;
+            height: 25px;
+            width:150px;
+        }
+        #add-box{
+            background: blue;
+        }
+        #remove-box{
+            background: gray;
+        }
+        #remove-all{
+            background: red;
+        }
+        .red{
+            background: red;
+        }
+        .blue{
+            background: blue;
+        }
+
+
+    </style>
+
+
+</head>
+<body>
+<div id="container">
+    <section id="options">
+        <button id="add-box">Add Box</button>
+        <button id="remove-box">Remove Box</button>
+        <button id="remove-all">Remove All</button>
+    </section>
+
+    <div id="boxes-container">
+
+    </div>
+</div>
+
+<script>
+    var functions = {
+        onReady:function () {
+            var $addBox = $("#add-box");
+            var $boxesContainer = $("#boxes-container");
+            var $removeBox = $("#remove-box");
+            var $removeAll = $("#remove-all");
+            var boxes = [];
+
+            $addBox.on("click",function(event) {
+                var $box = createBox();
+                var $window = $(window);
+                $box.windowHeight = $window.height();
+                $box.windowWidth = $window.width();
+                $boxesContainer.append($box);
+                $box.x = ($box.windowWidth - $box.outerWidth(true)) / 2;
+                $box.y = ($box.windowHeight - $box.outerHeight(true)) / 2;
+                var style = {
+                    left: $box.x + "px",
+                    top: $box.y + "px"
+                };
+                $box.css(style);
+                $box.xspeed = get_random(-10, 10);
+                $box.yspeed = get_random(-10, 10);
+                $box.updateAnimation = function () {
+                    if ($box.x <= 0 || $box.x + $box.outerWidth(true) >= $box.windowWidth) {
+                        $box.xspeed *= -1;
+                    }
+                    if ($box.y <= 0 || $box.y + $box.outerHeight(true) >= $box.windowHeight) {
+                        $box.yspeed *= -1;
+                    }
+                    $box.animate({
+                        left: "+=" + $box.xspeed,
+                        top: "+=" + $box.yspeed
+                    },50);
+                    $box.x += $box.xspeed;
+                    $box.y += $box.yspeed;
+                };
+                var i = setInterval($box.updateAnimation, 100);
+                $box.remInterval = function(){ clearInterval(i)};
+                boxes.push($box);
+            });
+            $(window).resize(
+                function () {
+                    for (var i = 0;i< boxes.length;i++){
+                        var $box = boxes[i];
+                        $box.windowHeight= $(window).height();
+                        console.lo($box.continer);
+                        $box.windowWidth= $(window).width();
+                        if ($box.x + $box.outerWidth(true) >= $box.windowWidth|| $box.y + $box.outerHeight() >= $box.windowHeight) {
+                            $box.remInterval();
+                            center($box);
+                        }
+                    }
+                }
+            );
+            var center =function($box){
+                $box.x=($box.windowWidth - $box.outerWidth(true)) / 2;
+                $box.y=($box.windowHeight - $box.outerHeight(true)) / 2;
+                var style = {
+                    left: ($box.windowWidth - $box.outerWidth(true)) / 2+ "px",
+                    top: ($box.windowHeight - $box.outerHeight(true)) / 2 + "px"
+                };
+                $box.css(style);
+                $box.x=($box.windowWidth - $box.outerWidth(true)) / 2;
+                $box.y=($box.windowHeight - $box.outerHeight(true)) / 2;
+            };
+            $boxesContainer.on("click","div",function () {
+                $(this).toggleClass("red");
+                $(this).toggleClass("blue");
+            });
+            $removeBox.on("click",function () {
+                boxes.pop().remove();
+            });
+            $removeAll.on("click",function () {
+                $boxesContainer.find("div").remove();
+                boxes = [];
+            });
+            var createBox=function(){
+                var $div = $("<div class=\"blue\" id=\"box\"></div>");
+                var $box = $div.clone(true);
+                var textSize = (get_random(1,25)+"vmax");
+                $box.css("font-size",textSize);
+                $box.text(boxes.length + 1);
+                return $box;
+            };
+            var get_random=function(min, max){
+                return Math.floor(Math.random()*(max-min))+(min);
+            };
+            return this.boxes;
+        }
+    };
+    $(document).ready(function(){
+        functions.onReady();
+    });
+</script>
+</body>
+</html>

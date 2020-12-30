@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Exercise3_1</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <style>
+        .highlight{
+            background:yellow;
+        }
+    </style>
+
+</head>
+<body>
+<!--
+Attach the "click" event to all <p> elements.
+Using console.log() find the text node of the clicked <p>.
+"Highlight" clicked <p> elements.
+-->
+
+<p>Number 1</p>
+<p>Number 2</p>
+<p>Number 3</p>
+<p>Number 4</p>
+
+<hr>
+
+<div id="foo">
+    This is foo! Click me
+</div>
+
+
+<script>
+   // $('#foo').click(function() {
+   /*
+       document.addEventListener("DOMContentLoaded",function (){
+           var allPs=document.getElementsByTagName("p");
+           for (var i=0;i<allPs.length;i++){
+               allPs[i].addEventListener("click",function (event) {
+                   console.dir(event);
+                   console.log(event.target.textContent);
+                   console.dir(this);
+                   console.log(this.textContent);
+
+                  // this.style=(this.style.backgroundColor=="yellow")?"white":"yellow";
+                   this.classList.toggle("highlight");
+               })
+           }
+
+    */
+   $("p").click(function (event) {
+       //console.dir(event);
+       //$(this).toggleClass("highlight");
+       this.classList.toggle("highlight");
+
+   })
+   $("#foo").click(function () {
+       $(this).text("Text 1");
+       alert("First event triggered");
+
+   });
+
+   $("#foo").click(function () {
+       //$(this).text("Text 2");
+       this.textContent="Test 2";
+       alert("Second event triggered");
+
+   });
+
+  //  });
+</script>
+</body>
+</html>

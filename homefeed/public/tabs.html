@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        * {box-sizing: border-box}
+        body {font-family: "Lato", sans-serif;}
+
+        /* Style the tab */
+        .tab {
+            float: left;
+            border: 1px solid #ccc;
+            background-color: #f1f1f1;
+            width: 30%;
+            height: 800px;
+        }
+
+        /* Style the buttons inside the tab */
+        .tab button {
+            display: block;
+            background-color: inherit;
+            color: black;
+            padding: 22px 16px;
+            width: 100%;
+            border: none;
+            outline: none;
+            text-align: left;
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 17px;
+        }
+
+        /* Change background color of buttons on hover */
+        .tab button:hover {
+            background-color: #ddd;
+        }
+
+        /* Create an active/current "tab button" class */
+        .tab button.active {
+            background-color: #ccc;
+        }
+
+        /* Style the tab content */
+        .tabcontent {
+            float: left;
+            padding: 0px 12px;
+            border: 1px solid #ccc;
+            width: 70%;
+            border-left: none;
+            height: 800px;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Create Group</h2>
+
+
+<div class="tab">
+    <button class="tablinks" onclick="openCity(event, 'Type')" id="defaultOpen">Type</button>
+    <button class="tablinks" onclick="openCity(event, 'Description')">Description</button>
+    <button class="tablinks" onclick="openCity(event, 'Enhance')">Enhance</button>
+    <button class="tablinks" onclick="openCity(event, 'Credentials')">Credentials</button>
+    <button class="tablinks" onclick="openCity(event, 'Review')">Review</button>
+</div>
+
+<div id="Type" class="tabcontent">
+    <label ><b>Group Type :</b></label><br>
+
+    <input type="radio" id="public" name="groupTypeSelect" value="open">
+    <label for="public">Public</label><br>
+    <input type="radio" id="private" name="groupTypeSelect" value="close">
+    <label for="private">Private</label><br>
+    <div id="showMe">
+        <label ><b>Please describe the criteria for joining your group :</b></label>
+        <input type="text" class="form-control" name="groupJoinCriteria" id="joincriteria"
+               onchange='Javascript:CheckCriteria();' autocomplete="off">
+        <p id="textError" class="error-message"></p>
+        <script>
+            function CheckCriteria() {
+                popUpWarning = true;
+                document.getElementById("textError").innerHTML = "";
+                var text = document.getElementById('joincriteria');
+                var filter = /^[a-zA-Z-,]+(\s{0,1}[a-zA-Z-, ])*$/;
+                if (!filter.test(text.value)) {
+                    document.getElementById("textError").innerHTML = "Please enter a valid text";
+                    checkCriteria = false;
+                    return false;
+                }else{
+                    checkCriteria = true;
+                    return true;
+                }
+            }
+        </script>
+    </div>
+</div>
+
+<div id="Description" class="tabcontent">
+    <label><b>Group Name* : </b></label>
+    <input type="text" name="Name" id="grpName" class="form-control" onchange='Javascript:ValidategrpName()'
+           required oninvalid="InvalidGroup(this);" oninput="InvalidGroup(this);" autocomplete="off">
+    <p>Enter a unique group name</p>
+    <p id="nameError" class="error-message"></p>
+    <script>
+        function ValidategrpName() {
+            popUpWarning = true;
+            document.getElementById("nameError").innerHTML = "";
+            // var name = /^[A-Za-z0-9 _]*[A-Za-z0-9][A-Za-z0-9 _]*$/;
+            var text = document.getElementById('grpName');
+            // if (!name.test(text.value)) {
+            if(!text.value){
+                document.getElementById("nameError").innerHTML = "Invalid characters found in the group name ";
+                text.style = "box-shadow: 0 0 5px 1px red";
+                validategrpName = false;
+                return false;
+            } else {
+                text.setCustomValidity('');
+                text.style = "box-shadow: none";
+                validategrpName =true;
+                return true;
+            }
+        }
+        function InvalidGroup(textbox) {
+            if (textbox.value === '') {
+                textbox.setCustomValidity('Required Group Name');
+                textbox.style = "box-shadow: 0 0 5px 1px red";
+                invalidGroup= false;
+                return false;
+            } else {
+                textbox.setCustomValidity('');
+                textbox.style = "box-shadow: none";
+                invalidGroup = true;
+                return true;
+            }
+        }
+    </script>
+    <label ><b>Trade Name/Acronym :</b></label>
+    <input type="text" name="TradeName" id="tradename" class="form-control" autocomplete="off"
+           onchange="popUpWarning = true;"><br>
+    <label><b>Website URL :</b></label>
+    <input type="text" name="webSiteURL" class="form-control" id="urlcheck" onchange='Javascript:CheckURL()'autocomplete="off">
+    <p id="urlError" class="error-message"></p>
+    <script>
+        function CheckURL() {
+            popUpWarning = true;
+            document.getElementById("urlError").innerHTML = "";
+            var url = document.getElementById("urlcheck");
+            var filter = /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g;
+            if (!filter.test(url.value)) {
+                document.getElementById("urlError").innerHTML = "Please enter valid URL...!";
+                document.getElementById("urlcheck").style = "box-shadow: 0 0 5px 1px red";
+                CheckURL = false;
+                return false;
+            }else{
+                document.getElementById("urlcheck").style = "box-shadow: none";
+                CheckURL = true;
+                return true;
+            }
+        }
+    </script>
+    <label><b>Group Description : </b></label><br>
+    <textarea type="text" name="description" class="form-control" cols="40" rows="5"
+              oninvalid="InvalidDesc(this);" oninput="InvalidDesc(this);" onchange="popUpWarning = true;" autocomplete="off"></textarea>
+    <script>
+        function InvalidDesc(desc) {
+            if (desc.value === '') {
+                desc.setCustomValidity('Required Description');
+                desc.style = "box-shadow: 0 0 5px 1px red";
+                invalidDesc = false;
+                return false;
+            } else {
+                desc.setCustomValidity('');
+                desc.style = "box-shadow: none";
+                invalidDesc = true;
+                return true;
+            }
+        }
+    </script>
+
+</div>
+
+<div id="Enhance" class="tabcontent">
+    <h3>Enhance</h3>
+
+        <div class="card" style=" border: 1px solid silver;border-radius: 5px;padding:5px">
+            <label  style="width:50%;"><b>Group Image* :<img
+                    src="https://img.icons8.com/ios/20/000000/about-filled.png" data-toggle="tooltip"
+                    title="Image size should be MAX(400x400 pixels)!"></b></label>
+            <div style="background-color: #c3bbbb;float: right;">
+                <img id="output" height="50" />
+            </div>
+            <input type="file" name="image" id="grpimage" onchange='Javascript:CheckImageType(event);'
+                   oninvalid="InvalidFile(this);" oninput="InvalidFile(this);">
+            <p id="fileError" class="error-message"></p>
+            <script>
+                function CheckImageType(event) {
+                    popUpWarning = true;
+                    var output = document.getElementById('output');
+                    var inputFile = document.getElementById('output');
+                    output.src = URL.createObjectURL(event.target.files[0]);
+                    document.getElementById("fileError").innerHTML = "";
+                    var file = document.getElementById('grpimage');
+                    var filter = /\.(jpe?g|png|gif|bmp|svg)$/i;
+                    if (!filter.test(file.value)) {
+                        document.getElementById("fileError").innerHTML = "Please select a valid image or file";
+                        file.style = "box-shadow: 0 0 5px 1px red";
+                        checkImageType = false;
+                        return false;
+                    } else {
+                        file.setCustomValidity('');
+                        file.style = "box-shadow: none";
+                        // return true;
+                        output.onload = function () {
+                            var height = this.naturalHeight;
+                            var width = this.naturalWidth;
+
+                            if ( height > 400 && width > 400) {
+                                document.getElementById("fileError").innerHTML = "Uploaded group icon should be MAX(400x400 pixels)";
+                                file.style = "box-shadow: 0 0 5px 1px red";
+                                checkImageType = false;
+                                return false;
+                            } else {
+                                file.setCustomValidity('');
+                                file.style = "box-shadow: none";
+                                checkImageType = true;
+                                return true;
+                            }
+                        };
+                    }
+                }
+                function InvalidFile(file) {
+                    if (file.value === '') {
+                        file.setCustomValidity('Required Group Icon');
+                        file.style = "box-shadow: 0 0 5px 1px red";
+                        invalidFile = false;
+                        return false;
+                    } else {
+                        file.setCustomValidity('');
+                        file.style = "box-shadow: none";
+                        invalidFile = true;
+                        return true;
+                    }
+                }
+            </script>
+        </div>
+</div>
+
+
+<div id="Credentials" class="tabcontent">
+    <h3> Credentials</h3>
+</div>
+<div id="Review" class="tabcontent">
+    <h3> Review</h3>
+</div>
+<script>
+    function openCity(evt, cityName) {
+        var i, tabcontent, tablinks;
+        tabcontent = document.getElementsByClassName("tabcontent");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+        }
+        tablinks = document.getElementsByClassName("tablinks");
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
+        document.getElementById(cityName).style.display = "block";
+        evt.currentTarget.className += " active";
+    }
+
+    // Get the element with id="defaultOpen" and click on it
+    document.getElementById("defaultOpen").click();
+</script>
+
+</body>
+</html>

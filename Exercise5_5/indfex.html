@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Exercise 5.5</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.min.js"></script>
+</head>
+<body>
+<div data-role="page" id="home" data-theme="a">
+
+
+    <div data-role="content" id="content">
+
+        <form>
+            <fieldset data-role="controlgroup" data-type="horizontal">
+                <legend>Your degree</legend>
+                <input type="radio" name="degree" id="bs" value="bs">
+                <label for="bs">B.S.</label>
+
+                <input type="radio" name="degree" id="ms" value="ms" checked="checked">
+                <label for="ms">M.S.</label>
+
+                <input type="radio" name="degree" id="phd" value="phd">
+                <label for="phd">Ph.D.</label>
+            </fieldset>
+        </form>
+        <button id="changeBtn" class="ui-btn ui-btn-inline">Change</button>
+
+    </div>
+
+
+</div>
+
+<script>
+    $(document).on("pagecreate",  function() {
+        // Your code
+        $degree=$("#content").find('input').filter("[name='degree']");
+
+        $("#changeBtn").on("click", function() {
+            selectedDegree = $degree.filter(":checked").val();
+            console.log("Selected Degree: " + selectedDegree);
+
+            //Let's change to Ph.D.
+            //If input field doesn't have "id" then use:
+            //$degree.filter('[value="' + 'phd' + '"]').prop("checked",true);
+
+            // Since input field has id="phd" we can use it:
+            $("#phd").prop("checked",true);
+
+            // Also try: $("#phd").attr("checked", true);
+            // What's the difference??
+            // http://api.jquery.com/prop/
+            // Checked attribute (.attr() method) does NOT correspond to the
+            // checked property (.prop() method).
+            // The attribute actually corresponds to the defaultChecked property
+            // and should be used only to set the INITIAL value of the checkbox.
+            // The checked attribute value does NOT change with the state of the
+            // checkbox!
+
+            $degree.checkboxradio("refresh");
+        });
+
+    });
+
+</script>
+
+</body>
+</html>

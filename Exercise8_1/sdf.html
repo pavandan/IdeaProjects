@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="format-detection" content="telephone=no">
+    <meta name="msapplication-tap-highlight" content="no">
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+    <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.min.js"></script>
+
+    <title>Exercise 8_2</title>
+</head>
+
+<body>
+<div data-role="page">
+    <div data-role="content">
+        <div id="info" class="ui-field-contain"></div>
+        <button id="getBtn" class="ui-btn ui-icon-action ui-btn-icon-left">Get Time</button>
+    </div>
+</div>
+
+
+<script>
+    $(document).on("pagecreate",initApp());
+    function initApp() {
+        var url = "http://babanski.com/files/ajax/time.php";
+
+        var $info=$("#info");
+        var $getBtn=$("#getBtn");
+        var getBtnText=$getBtn.text();
+
+        var xhr= new XMLHttpRequest();
+        xhr.onreadystatechange=function () {
+            if(this.readyState == XMLHttpRequest.OPENED){
+                $getBtn.text("Please Wait");
+                $info.text("");
+            }else if(this.readyState==XMLHttpRequest.DONE){
+                if(this.status==200){
+                    $info.text(this.responseText);
+
+                }else{
+                    $info.text("Error cannot find time");
+                }
+                $getBtn.text(getBtnText);
+            }
+
+        };
+
+        $getBtn.click(function () {
+            xhr.open("GET",url,true);
+            xhr.send();
+            xhr.timeout=6000;
+
+        });
+    }
+
+
+
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="css/main.css">
+     <title>Input</title>
+
+</head>
+<body>
+<h1>Input</h1>
+<!--/*@thymesVar id="errors" type="java.util.ArrayList<java.lang.String>"*/-->
+<div th:if="${not #lists.isEmpty(errors)}">
+    <h3 class="error">Input Errors:</h3>
+    <ul>
+        <li class="error" th:each="e: ${errors}" th:text="${e}">Error</li>
+    </ul>
+</div>
+<!--/*@thymesVar id="form" type="ca.midterm.part2.p2.Employee"*/-->
+<form method="get" action="/Output.do" th:object="${form}">
+    <p>
+        <label for="name">Employee Name: </label>
+        <input id="name" type="text" th:field="*{name}">
+    </p>
+
+    <p>
+        <label>Department: </label>
+        <input type="radio" name="department" value="Development" checked/>Development
+        <input type="radio" name="department" value="Testing">Testing
+        <input type="radio" name="department" value="Marketing">Marketing
+    </p>
+
+    <p>
+        <label>&nbsp;&nbsp;</label>
+        <input type="submit" value="Send" class="btn btn-danger"/>
+    </p>
+</form>
+
+</body>
+</html>

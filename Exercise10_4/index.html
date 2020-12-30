@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Exercise 10.4</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <style>
+        .alert {
+            display:none;
+        }
+    </style>
+
+</head>
+<body>
+
+<div class="container">
+    <div class="row">
+        <header class="col-md-12">
+            <h2>Say Hello Application</h2>
+        </header>
+        <div class="col-md-12">
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input id="name" type="text" class="form-control" placeholder="Your Name">
+            </div>
+
+            <!-- classes: alert-danger and alert-success -->
+            <div class="alert alert-warning" role="alert">
+                <span id="alertClose" class="close" aria-hidden="true">&times;</span>
+                <span id="msg"> </span>
+            </div>
+
+
+            <button type="button" id="btnSubmit" class="btn btn-success">Say Hello</button>
+
+        </div>
+    </div>
+
+</div>
+
+
+<script>
+    $(document).ready(initApp);
+
+    function initApp() {
+        var url = "http://babanski.com/files/ajax/hello.php";
+
+        var $msg = $("#msg");
+
+        var $btnSubmit=$("#btnSubmit");
+        var btnSubmitText=$btnSubmit.text();
+
+
+        var $name=$("#name");
+
+        // show popup and hide it after 2.5 secs
+        function showPopup(message) {
+            $msg.html(message).parent().show(1000);
+            setTimeout(  function() { $msg.parent().hide(1000);}, 2500 );
+        };
+
+        // We want to be able to "close" popup manually!
+        $("#alertClose").click(function(){
+            $(this).parent().hide();
+        });
+
+
+        $.ajaxSetup({
+            url: url,
+            method: "POST",
+            dataType: "text",
+            cache: false,
+            timeout: 6000, // sets timeout to 3 seconds
+            error: function() {
+                showPopup("Error: Cannot get data!");
+            },
+            success: function(data) {
+                showPopup(data);
+            }
+        });
+
+        $(document).on("ajaxStart", function(){
+            // Show "loading" message and hide "result" message.
+            $msg.parent().hide();
+            $btnSubmit.text("Please Wait!");
+
+        }).on("ajaxComplete", function(){
+            $btnSubmit.text(btnSubmitText);
+        });
+
+        $btnSubmit.click(function() {
+
+            // Use $.ajaxSetup() and collect parameters from the form!!!
+            var name=$name.val().trim().split(/\s+/);
+
+            if (name.length < 2) {
+                showPopup("Please provide First and Last name!");
+                return;
+            }
+
+            var formData ={ f_name: name[0], l_name: name[1] };
+            $.ajax( {data: formData} );
+
+        });
+    };
+
+</script>
+</body>
+</html>

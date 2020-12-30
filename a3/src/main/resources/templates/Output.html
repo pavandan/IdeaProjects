@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!--/*@thymesVar id="pyramid" type="vandan.patel.pyramid.calculator.a3.model.Pyramid"*/-->
+<head>
+    <meta charset="UTF-8">
+    <link th:href="@{css/normalize.css}" href="../static/css/normalize.css" rel="stylesheet" type="text/css"/>
+    <link th:href="@{css/main.css}" href="../static/css/main.css" rel="stylesheet" type="text/css"/>
+    <title>Output</title>
+</head>
+<body>
+<h1>Pyramid Calculations</h1>
+<p>
+    <label>Polygon sides: </label>
+    <span class="output" th:text="${pyramid.baseN}"></span>
+</p>
+<p>
+    <label>Base Side: </label>
+    <span class="output" th:text="${#numbers.formatDecimal(pyramid.baseSide,1,3,'POINT')}">3.343</span>
+</p>
+<p>
+    <label>Height: </label>
+    <span class="output" th:text="${#numbers.formatDecimal(pyramid.height,1,3,'POINT')}">3.343</span>
+</p>
+<p>
+    <label>Base Area: </label>
+    <span class="output" th:text="${#numbers.formatDecimal(pyramid.baseArea,1,3,'POINT')}">3.234</span>
+</p>
+<p>
+    <label>Volume: </label>
+    <span class="output" th:text="${#numbers.formatDecimal(pyramid.volume,1,3,'POINT')}">3.234</span>
+</p>
+
+
+</body>
+</html>

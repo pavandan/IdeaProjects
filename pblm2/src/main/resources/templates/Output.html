@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Output</title>
+</head>
+<body>
+<h1>Output</h1>
+<!--/*@thymesVar id="pet" type="ca.petform.pblm2.Pet"*/-->
+<div th:object="${pet}">
+    <p>
+        <label>Pet Name: </label>
+        <span th:text="*{name}">Name: </span>
+    </p>
+    <p>
+        <label>Vaccinated</label>
+        <span th:text="*{vaccinated}">Vaccinated</span>
+    </p>
+    <p>
+        <label>Radio: </label>
+        <span th:text="*{radio}">Radio</span>
+    </p>
+    <p>
+        <label>Dropdown: </label>
+        <span th:text="*{dropdown}">Dropdown</span>
+    </p>
+</div>
+<p><a href="/Input.do">Input</a> </p>
+</body>
+</html>

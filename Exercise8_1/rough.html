@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<h1>Hello, WOrld</h1>
+<p id="myID"></p>
+<h2>Done page loading!</h2>
+<script type="text/javascript" >
+    function sleep(milliseconds){
+        var start=new Date().getTime();
+        do{}while((new Date().getTime()-start)<milliseconds);
+        document.getElementById("myID").text("Sleep for :"+milliseconds);
+    }
+    sleep(7000);
+</script>
+</body>
+</html>

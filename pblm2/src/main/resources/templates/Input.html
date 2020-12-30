@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Input</title>
+</head>
+<body>
+<h1>Input</h1>
+<!--/*@thymesVar id="errors" type="java.util.ArrayList<java.lang.String>"*/-->
+<div th:if="${not #lists.isEmpty(errors)}">
+    <h3 class="error">Input Errors:</h3>
+    <ul>
+        <li class="error" th:each="e: ${errors}" th:text="${e}">Error</li>
+    </ul>
+</div>
+<!--/*@thymesVar id="form" type="ca.petform.pblm2.Pet"*/-->
+<form method="get" action="/Output.do" th:object="${form}">
+    <p>
+        <label for="name">Pet Name: </label>
+        <input id="name" type="text" th:field="*{name}">
+    </p>
+    <p>
+        <label>Vaccinated: </label>
+        <input type="checkbox" th:field="*{vaccinated}" th:value="yes"/>
+    </p>
+    <p>
+        <label>Radio: </label>
+        <input type="radio" name="radio" value="yes" checked/>Yes
+        <input type="radio" name="radio" value="no">No
+    </p>
+    <p>
+        <label for="prog">Dropdown: </label>
+        <select id="prog" th:field="*{dropdown}">
+            <!--/*@thymesVar id="programs" type="ca.lang.String[]"*/-->
+            <option th:each="p: ${programs}" th:value="${p}" th:text="${p}">Program</option>
+        </select>
+    </p>
+    <p>
+        <label>&nbsp;&nbsp;</label>
+        <input type="submit" value="Send"/>
+    </p>
+</form>
+
+</body>
+</html>

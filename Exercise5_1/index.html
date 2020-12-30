@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Exercise5_1</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+
+</head>
+<body>
+<div id="accordion">
+    <h3>jQuery</h3>
+    <div>jQuery is a fast, small, and feature-rich JavaScript library.</div>
+
+    <h3>jQuery UI</h3>
+    <div>jQuery UI is a curated set of user interface interactions, effects, widgets, and themes built on top of the jQuery JavaScript Library. </div>
+
+    <h3>jQuiry Mobile</h3>
+    <div>jQuery Mobile is a HTML5-based user interface system designed to make responsive web sites and apps that are accessible on all smartphone, tablet and desktop devices</div>
+</div>
+<script>
+    $(document).ready(function () {
+
+        var options={ active:2,collapse:true};
+
+        $("#accordion").accordion(options);
+
+    })
+</script>
+
+</body>
+</html>

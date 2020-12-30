@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h1>Hello, World</h1>
+
+    <p id="result"></p>
+    <script>
+
+        //localStorage.clear();
+       // localStorage.setItem("course","PROG20261");
+        //window.localStorage.setItem("instructor","Alex");
+
+        sessionStorage.setItem("course","INFO16206");
+        sessionStorage.setItem("instructor","Maria sharapova");
+
+
+        /*
+        document.getElementById("result").textContent=
+            "Course: "+ localStorage.getItem("course")+
+                "instructor: " +localStorage.getItem("instructor");
+*/
+        /*
+        document.getElementById("result").textContent=
+            "Course: "+ sessionStorage.getItem("course")+
+            "instructor: " +sessionStorage.getItem("instructor");
+            */
+        for (var i=0;i<localStorage.length;i++){
+            var key=localStorage.key(i);
+            var value=localStorage.getItem(key);
+
+            console.log(key + "=>"+value);
+        }
+
+        var obj= {city:"Toronto",week:"1"};
+        var arr=["Toronto","1"];
+
+        localStorage.setItem("obj",JSON.stringify(obj));
+        localStorage.setItem("arr",JSON.stringify(arr));
+
+        var obj_back=JSON.parse(localStorage.getItem("obj"));
+        console.dir(obj_back);
+
+    </script>
+
+
+
+</body>
+</html>

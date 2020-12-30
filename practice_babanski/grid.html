@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Asignmnt1, Bilal</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="jquery.min.js" type="text/javascript"></script>
+
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <style>
+
+        #container {
+            position:absolute;
+            top:50px;
+            left:50px;
+            width:1100px;
+            height:600px;
+            border: 2px solid blue;
+            border-radius: 5px;}
+
+        #box {
+            display: flex;
+            position: absolute;
+            color: white;
+            border:1px solid black;
+
+        }
+        #options{
+            align-self: center;
+            align-items: flex-start;
+
+        }
+        .red{
+            background: red;
+        }
+        .blue{
+            background: blue;
+        }
+
+
+    </style>
+
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.js"></script>
+    <script>
+        $( function() {
+            $( '#container' ).resizable();
+        } );
+    </script>
+
+
+</head>
+<body>
+
+<div id="container">
+
+    <section id="options">
+        <button class="btn btn-primary " id="add-box">Add Box</button>
+        <button class="btn btn-secondary " id="remove-box">Remove Box</button>
+        <button class="btn btn-danger " id="remove-all">Remove all</button>
+    </section>
+    <div id="boxes-container">
+    </div>
+
+</div>
+
+
+<script>
+    var functions = {
+        onReady:function () {
+            var $addBox = $("#add-box");
+            var $boxesContainer = $("#boxes-container");
+            var $removeBox = $("#remove-box");
+            var $removeAll = $("#remove-all");
+            var boxes = [];
+            var intervals=[];
+
+            $addBox.on("click",function(event) {
+
+                var $box = createBox();
+
+                var $container= $(container);
+
+                $box.containerHeight = $container.height();
+                $box.containerWidth = $container.width();
+
+
+                $boxesContainer.append($box);
+
+                $box.x = ($box.containerWidth - $box.outerWidth(true)) / 2;
+                $box.y = ($box.containerHeight - $box.outerHeight(true)) / 2;
+
+
+                var style = {
+                    left: $box.x + "px",
+                    top: $box.y + "px"
+                };
+                $box.css(style);
+
+                $box.xspeed = getRandom(-10, 10);
+                $box.yspeed = getRandom(-10, 10);
+
+
+                $box.updateAnimation = function () {
+                    if ($box.x <= 0 || $box.x + $box.outerWidth(true) >= $box.containerWidth) {
+                        console.log("box.x when *-1=   "+$box.x);
+                        $box.xspeed *= -1;
+                    }
+
+                    if ($box.y <= 0 || $box.y + $box.outerHeight(true) >= $box.containerHeight) {
+
+                        $box.yspeed *= -1;
+                    }
+                    $box.animate({
+                        left: "+=" + $box.xspeed,
+                        top: "+=" + $box.yspeed
+                    },50);
+                    $box.x += $box.xspeed;
+                    $box.y += $box.yspeed;
+                };
+                var i = setInterval($box.updateAnimation, 100);
+
+                boxes.push($box);
+
+
+
+            });
+            $(container).resize(
+                function () {
+
+                    console.dir(boxes);
+
+                    for (var i = 0;i< boxes.length;i++){
+                        var $box = boxes[i];
+                        $box.containerHeight= $(container).height();
+                        $box.containerWidth= $(container).width();
+
+                        if ($box.x + $box.outerWidth(true) >= $box.containerWidth|| $box.y + $box.outerHeight() >= $box.containerHeight) {
+
+                            $box.remInterval();
+                            console.log($box);
+
+                            moveToTheMid($box);
+
+                            console.log("($box.container - $box.outerWidth(true)) / 2 ="+($box.containerWidth - $box.outerWidth(true)) / 2);
+                            console.log("($box.containerHeight - $box.outerHeight(true)) / 2 ="+($box.containerHeight - $box.outerHeight(true)) / 2);
+
+                            console.log("$box.x"+$box.x);
+                            console.log("$box.y"+$box.y);
+                        }
+
+                    }
+
+                }
+            );
+            var moveToTheMid =function($box){
+
+                $box.x=($box.containerWidth - $box.outerWidth(true)) / 2;
+
+                $box.y=($box.containerHeight - $box.outerHeight(true)) / 2;
+
+                var style = {
+                    left: ($box.containerWidth - $box.outerWidth(true)) / 2+ "px",
+                    top: ($box.containerHeight - $box.outerHeight(true)) / 2 + "px"
+                };
+                console.log("($box.containerWidth - $box.outerWidth(true)) / 2= "+$box.x);
+                console.log("($box.containerHeight - $box.outerHeight(true)) / 2  "+$box.y);
+                $box.css(style);
+
+                $box.x=($box.containerWidth - $box.outerWidth(true)) / 2;
+
+                $box.y=($box.containerHeight - $box.outerHeight(true)) / 2;
+
+
+            };
+
+            $boxesContainer.on("click","div",function () {
+                $(this).toggleClass("red");
+                $(this).toggleClass("blue");
+            });
+            $removeBox.on("click",function () {
+                boxes.pop().remove();
+                console.log(boxes);
+            });
+            $removeAll.on("click",function () {
+
+                $boxesContainer.find("div").remove();
+
+                boxes = [];
+            });
+            var createBox=function(){
+                console.log("created box");
+                console.log();
+                var $div = $("<div class=\"blue\" id=\"box\"></div>");
+                var $box = $div.clone(true);
+                var textSize = (getRandom(1,25)+"vmax");
+                $box.css("font-size",textSize);
+                $box.text(boxes.length + 1);
+                return $box;
+
+            };
+            var getRandom=function(min, max){
+
+                return Math.floor(Math.random()*(max-min))+(min);
+
+            };
+
+            return this.boxes;
+        }
+
+    };
+
+    $(document).ready(function(){
+        functions.onReady();
+
+    });
+
+</script>
+</body>
+</html>
